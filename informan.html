@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEU Library | Visitor Log</title>
+    <style>
+        :root {
+            --neu-green: #0c6b2f;
+            --neu-gold: #ffcc00;
+            --light-gray: #f8f9fa;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
+
+        body {
+            background-color: #e9ecef;
+            background-image: linear-gradient(135deg, #0c6b2f 10%, #06411c 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .main-card {
+            background: white;
+            width: 100%;
+            max-width: 850px;
+            display: flex;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        /* Branding Side */
+        .sidebar {
+            background: #ffffff;
+            width: 40%;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border-right: 1px solid #eee;
+        }
+
+        .neu-logo {
+            width: 150px;
+            margin-bottom: 20px;
+        }
+
+        .sidebar h1 {
+            font-size: 22px;
+            color: var(--neu-green);
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 10px;
+        }
+
+        .sidebar p {
+            color: #555;
+            font-size: 13px;
+            font-style: italic;
+        }
+
+        /* Form Side */
+        .content {
+            width: 60%;
+            padding: 50px;
+            background: #fafafa;
+        }
+
+        .form-title {
+            margin-bottom: 30px;
+            border-left: 5px solid var(--neu-green);
+            padding-left: 15px;
+        }
+
+        .form-title h2 {
+            color: #333;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .form-title span {
+            color: #888;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .input-group { margin-bottom: 18px; }
+        
+        label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--neu-green);
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            background: white;
+            font-size: 14px;
+            transition: 0.2s;
+            outline: none;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--neu-green);
+            box-shadow: 0 0 0 3px rgba(12, 107, 47, 0.1);
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: var(--neu-green);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 10px;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #094d22;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .footer {
+            margin-top: 25px;
+            text-align: center;
+            font-size: 11px;
+            color: #aaa;
+        }
+
+        @media (max-width: 768px) {
+            .main-card { flex-direction: column; }
+            .sidebar, .content { width: 100%; padding: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-card">
+    <div class="sidebar">
+        <img src="neu-logo.png" alt="NEU Logo" class="neu-logo">
+        <h1>NEW ERA<br>UNIVERSITY</h1>
+        <p>University Library Service<br>"Knowledge is Power"</p>
+    </div>
+
+    <div class="content">
+        <div class="form-title">
+            <span>Official Visitor Log</span>
+            <h2>Student Login Portal</h2>
+        </div>
+        
+        <div class="input-group">
+            <label>Institutional Email</label>
+            <input type="email" id="email" placeholder="student.name@neu.edu.ph">
+        </div>
+
+        <div class="input-group">
+            <label>Full Name</label>
+            <input type="text" id="fullName" placeholder="Username">
+        </div>
+
+        <div class="input-group">
+            <label>Program / Course</label>
+            <input type="text" id="program" placeholder="e.g. BSIT 2-1">
+        </div>
+
+        <div class="input-group">
+            <label>Purpose of Visit</label>
+            <select id="reason">
+                <option value="Reading">Reading & Self-Study</option>
+                <option value="Research">Research / Thesis</option>
+                <option value="Use Computer">Computer Laboratory</option>
+                <option value="Meeting">Group Meeting</option>
+            </select>
+        </div>
+
+        <button id="submitBtn">Sign In to Library</button>
+
+        <p class="footer">© 2026 New Era University Library System</p>
+    </div>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyCFBZ7rZ-LyKuy0W0J6VjET1auqAM7GMFM",
+        authDomain: "neu-library-visitor-log-eb7d8.firebaseapp.com",
+        projectId: "neu-library-visitor-log-eb7d8",
+        storageBucket: "neu-library-visitor-log-eb7d8.firebasestorage.app",
+        messagingSenderId: "168137481697",
+        appId: "1:168137481697:web:184188a3f657b79c2906a0",
+        measurementId: "G-1J342R3THN"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const submitBtn = document.getElementById('submitBtn');
+
+    submitBtn.addEventListener('click', async () => {
+        const email = document.getElementById('email').value;
+        const fullName = document.getElementById('fullName').value;
+        const program = document.getElementById('program').value;
+        const reason = document.getElementById('reason').value;
+
+        if(!email || !fullName || !program) {
+            alert("Please fill out all fields.");
+            return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.innerText = "Processing...";
+
+        try {
+            await addDoc(collection(db, "visitors"), {
+                email: email,
+                fullName: fullName,
+                program: program,
+                reason: reason,
+                timestamp: serverTimestamp()
+            });
+
+            // Output requirement #1
+            alert("Welcome to NEU Library!\n\nUser: " + fullName + "\nProgram: " + program);
+            
+            document.getElementById('email').value = "";
+            document.getElementById('fullName').value = "";
+            document.getElementById('program').value = "";
+
+        } catch (error) {
+            console.error("Error:", error);
+            alert("Submission failed. Please check connection.");
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerText = "Sign In to Library";
+        }
+    });
+</script>
+
+</body>
+</html>
