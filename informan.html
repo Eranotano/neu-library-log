@@ -3,152 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEU Library | Visitor Log</title>
+    <title>NEU Library | Digital Access Portal</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
     <style>
-        :root {
-            --neu-green: #0c6b2f;
-            --neu-gold: #ffcc00;
-            --light-gray: #f8f9fa;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
-
-        body {
-            background-color: #e9ecef;
-            background-image: linear-gradient(135deg, #0c6b2f 10%, #06411c 100%);
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .main-card {
-            background: white;
-            width: 100%;
-            max-width: 850px;
-            display: flex;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-        }
-
-        /* Branding Side */
-        .sidebar {
-            background: #ffffff;
-            width: 40%;
-            padding: 40px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            border-right: 1px solid #eee;
-        }
-
-        .neu-logo {
-            width: 150px;
-            margin-bottom: 20px;
-        }
-
-        .sidebar h1 {
-            font-size: 22px;
-            color: var(--neu-green);
-            font-weight: 800;
-            line-height: 1.2;
-            margin-bottom: 10px;
-        }
-
-        .sidebar p {
-            color: #555;
-            font-size: 13px;
-            font-style: italic;
-        }
-
-        /* Form Side */
-        .content {
-            width: 60%;
-            padding: 50px;
-            background: #fafafa;
-        }
-
-        .form-title {
-            margin-bottom: 30px;
-            border-left: 5px solid var(--neu-green);
-            padding-left: 15px;
-        }
-
-        .form-title h2 {
-            color: #333;
-            font-size: 24px;
-            font-weight: 700;
-        }
-
-        .form-title span {
-            color: #888;
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .input-group { margin-bottom: 18px; }
+        :root { --neu-green: #0c6b2f; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         
-        label {
-            display: block;
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--neu-green);
-            text-transform: uppercase;
-            margin-bottom: 6px;
+        body { 
+            background: linear-gradient(rgba(12, 107, 47, 0.92), rgba(6, 65, 28, 0.96)), 
+                        url('https://www.neu.edu.ph/main/images/bg-main.jpg') no-repeat center center fixed;
+            background-size: cover;
+            height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; 
         }
 
-        input, select {
-            width: 100%;
-            padding: 12px 15px;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-            background: white;
-            font-size: 14px;
-            transition: 0.2s;
-            outline: none;
+        .main-card { 
+            background: white; width: 100%; max-width: 800px; display: flex; 
+            border-radius: 20px; overflow: hidden; box-shadow: 0 40px 80px rgba(0,0,0,0.6); 
         }
 
-        input:focus, select:focus {
-            border-color: var(--neu-green);
-            box-shadow: 0 0 0 3px rgba(12, 107, 47, 0.1);
+        .sidebar { 
+            background: #fff; width: 35%; padding: 40px; display: flex; 
+            flex-direction: column; align-items: center; justify-content: center; 
+            text-align: center; border-right: 1px solid #f2f2f2; 
         }
 
-        button {
-            width: 100%;
-            padding: 14px;
-            background: var(--neu-green);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 15px;
-            font-weight: 700;
-            cursor: pointer;
-            margin-top: 10px;
-            text-transform: uppercase;
-            transition: 0.3s;
+        .neu-logo { width: 120px; margin-bottom: 15px; }
+        .sidebar h1 { font-size: 20px; color: var(--neu-green); font-weight: 800; letter-spacing: -0.5px; }
+
+        .content { width: 65%; padding: 45px; background: #ffffff; }
+        .form-header { margin-bottom: 30px; }
+        .form-header h2 { color: #111; font-size: 26px; font-weight: 800; border-bottom: 4px solid var(--neu-green); display: inline-block; padding-bottom: 5px; }
+
+        .input-group { margin-bottom: 20px; }
+        label { display: block; font-size: 10px; font-weight: 800; color: #555; text-transform: uppercase; margin-bottom: 6px; letter-spacing: 1px; }
+        
+        input, select { 
+            width: 100%; padding: 12px 16px; border-radius: 8px; 
+            border: 2px solid #eee; font-size: 14px; transition: 0.3s; outline: none; background: #fafafa; 
         }
 
-        button:hover {
-            background: #094d22;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        input:focus, select:focus { border-color: var(--neu-green); background: white; box-shadow: 0 0 0 4px rgba(12, 107, 47, 0.08); }
+
+        button { 
+            width: 100%; padding: 15px; background: var(--neu-green); color: white; 
+            border: none; border-radius: 8px; font-size: 15px; font-weight: 700; 
+            cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; margin-top: 10px;
         }
 
-        .footer {
-            margin-top: 25px;
-            text-align: center;
-            font-size: 11px;
-            color: #aaa;
-        }
+        button:hover { background: #074a20; transform: translateY(-1px); }
+        .footer { margin-top: 25px; text-align: center; font-size: 10px; color: #ccc; font-weight: 600; text-transform: uppercase; }
 
-        @media (max-width: 768px) {
-            .main-card { flex-direction: column; }
-            .sidebar, .content { width: 100%; padding: 30px; }
-        }
+        @media (max-width: 768px) { .main-card { flex-direction: column; } .sidebar, .content { width: 100%; padding: 30px; } }
     </style>
 </head>
 <body>
@@ -157,43 +64,46 @@
     <div class="sidebar">
         <img src="neu-logo.png" alt="NEU Logo" class="neu-logo">
         <h1>NEW ERA<br>UNIVERSITY</h1>
-        <p>University Library Service<br>"Knowledge is Power"</p>
     </div>
 
     <div class="content">
-        <div class="form-title">
-            <span>Official Visitor Log</span>
-            <h2>Student Login Portal</h2>
+        <div class="form-header">
+            <h2>Visitor Sign-In</h2>
+        </div>
+
+        <div class="input-group">
+            <label>Student Number</label>
+            <input type="text" id="studentId" placeholder="Identification Number">
         </div>
         
         <div class="input-group">
-            <label>Institutional Email</label>
+            <label>NEU Email Address</label>
             <input type="email" id="email" placeholder="student.name@neu.edu.ph">
         </div>
 
         <div class="input-group">
             <label>Full Name</label>
-            <input type="text" id="fullName" placeholder="Username">
+            <input type="text" id="fullName" placeholder="Last Name, First Name M.I.">
         </div>
 
         <div class="input-group">
             <label>Program / Course</label>
-            <input type="text" id="program" placeholder="e.g. BSIT 2-1">
+            <input type="text" id="program" placeholder="Degree and Year/Section">
         </div>
 
         <div class="input-group">
             <label>Purpose of Visit</label>
             <select id="reason">
-                <option value="Reading">Reading & Self-Study</option>
-                <option value="Research">Research / Thesis</option>
-                <option value="Use Computer">Computer Laboratory</option>
-                <option value="Meeting">Group Meeting</option>
+                <option value="" disabled selected>Select activity...</option>
+                <option value="Reading">Self-Study / Reading</option>
+                <option value="Research">Research & Reference</option>
+                <option value="Use Computer">Computer / Internet Use</option>
+                <option value="Meeting">Group Study Session</option>
             </select>
         </div>
 
         <button id="submitBtn">Sign In to Library</button>
-
-        <p class="footer">© 2026 New Era University Library System</p>
+        <p class="footer">NEU Library Management System © 2026</p>
     </div>
 </div>
 
@@ -207,54 +117,36 @@
         projectId: "neu-library-visitor-log-eb7d8",
         storageBucket: "neu-library-visitor-log-eb7d8.firebasestorage.app",
         messagingSenderId: "168137481697",
-        appId: "1:168137481697:web:184188a3f657b79c2906a0",
-        measurementId: "G-1J342R3THN"
+        appId: "1:168137481697:web:184188a3f657b79c2906a0"
     };
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
+    const btn = document.getElementById('submitBtn');
 
-    const submitBtn = document.getElementById('submitBtn');
-
-    submitBtn.addEventListener('click', async () => {
-        const email = document.getElementById('email').value;
-        const fullName = document.getElementById('fullName').value;
-        const program = document.getElementById('program').value;
+    btn.addEventListener('click', async () => {
+        const studentId = document.getElementById('studentId').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const fullName = document.getElementById('fullName').value.trim();
+        const program = document.getElementById('program').value.trim();
         const reason = document.getElementById('reason').value;
 
-        if(!email || !fullName || !program) {
-            alert("Please fill out all fields.");
+        if(!studentId || !email || !fullName || !program || !reason) {
+            Swal.fire({ icon: 'warning', title: 'Incomplete Form', text: 'All fields are required for university records.', confirmButtonColor: '#0c6b2f' });
             return;
         }
 
-        submitBtn.disabled = true;
-        submitBtn.innerText = "Processing...";
+        btn.disabled = true; btn.innerText = "PROCESSING...";
 
         try {
-            await addDoc(collection(db, "visitors"), {
-                email: email,
-                fullName: fullName,
-                program: program,
-                reason: reason,
-                timestamp: serverTimestamp()
-            });
-
-            // Output requirement #1
-            alert("Welcome to NEU Library!\n\nUser: " + fullName + "\nProgram: " + program);
-            
-            document.getElementById('email').value = "";
-            document.getElementById('fullName').value = "";
-            document.getElementById('program').value = "";
-
-        } catch (error) {
-            console.error("Error:", error);
-            alert("Submission failed. Please check connection.");
-        } finally {
-            submitBtn.disabled = false;
-            submitBtn.innerText = "Sign In to Library";
-        }
+            await addDoc(collection(db, "visitors"), { studentId, email, fullName, program, reason, timestamp: serverTimestamp() });
+            Swal.fire({ icon: 'success', title: 'Welcome to NEU Library', text: `Access Authorized: ${fullName}`, confirmButtonColor: '#0c6b2f' });
+            document.querySelectorAll('input').forEach(i => i.value = '');
+            document.getElementById('reason').selectedIndex = 0;
+        } catch (e) {
+            Swal.fire({ icon: 'error', title: 'System Error', text: 'Please check your connection.' });
+        } finally { btn.disabled = false; btn.innerText = "SIGN IN TO LIBRARY"; }
     });
 </script>
-
 </body>
 </html>
