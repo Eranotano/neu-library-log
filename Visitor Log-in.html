@@ -2,60 +2,102 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEU Library | Digital Access Portal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>NEU Library | Visitor Sign-In</title>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     
     <style>
-        :root { --neu-green: #0c6b2f; }
+        :root { 
+            --neu-green: #0c6b2f; 
+            --neu-hover: #084d22;
+        }
+        
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         
         body { 
-            background: linear-gradient(rgba(12, 107, 47, 0.92), rgba(6, 65, 28, 0.96)), 
-                        url('https://www.neu.edu.ph/main/images/bg-main.jpg') no-repeat center center fixed;
-            background-size: cover;
-            height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; 
+            background: #0c6b2f; 
+            background: linear-gradient(rgba(12, 107, 47, 0.9), rgba(0, 0, 0, 0.8));
+            min-height: 100vh; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            padding: 15px; /* Ginawang 15px para sa mas maliit na screen */
         }
 
         .main-card { 
-            background: white; width: 100%; max-width: 800px; display: flex; 
-            border-radius: 20px; overflow: hidden; box-shadow: 0 40px 80px rgba(0,0,0,0.6); 
+            background: white; 
+            width: 100%; 
+            max-width: 850px; 
+            display: flex; 
+            flex-direction: row;
+            border-radius: 20px; 
+            overflow: hidden; 
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5); 
         }
 
         .sidebar { 
-            background: #fff; width: 35%; padding: 40px; display: flex; 
-            flex-direction: column; align-items: center; justify-content: center; 
-            text-align: center; border-right: 1px solid #f2f2f2; 
+            background: #fff; 
+            width: 35%; 
+            padding: 40px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            text-align: center; 
+            border-right: 1px solid #f2f2f2; 
         }
 
-        .neu-logo { width: 120px; margin-bottom: 15px; }
-        .sidebar h1 { font-size: 20px; color: var(--neu-green); font-weight: 800; letter-spacing: -0.5px; }
+        .neu-logo { width: 100px; margin-bottom: 15px; }
+        .sidebar h1 { font-size: 1.2rem; color: var(--neu-green); font-weight: 800; }
 
-        .content { width: 65%; padding: 45px; background: #ffffff; }
-        .form-header { margin-bottom: 30px; }
-        .form-header h2 { color: #111; font-size: 26px; font-weight: 800; border-bottom: 4px solid var(--neu-green); display: inline-block; padding-bottom: 5px; }
+        .content { width: 65%; padding: 40px; background: #ffffff; }
+        .form-header { margin-bottom: 25px; }
+        .form-header h2 { 
+            color: #111; 
+            font-size: 24px; 
+            font-weight: 800; 
+            border-bottom: 4px solid var(--neu-green); 
+            display: inline-block; 
+            padding-bottom: 5px; 
+        }
 
-        .input-group { margin-bottom: 20px; }
-        label { display: block; font-size: 10px; font-weight: 800; color: #555; text-transform: uppercase; margin-bottom: 6px; letter-spacing: 1px; }
+        .input-group { margin-bottom: 18px; }
+        label { 
+            display: block; 
+            font-size: 10px; 
+            font-weight: 800; 
+            color: #666; 
+            text-transform: uppercase; 
+            margin-bottom: 6px; 
+            letter-spacing: 0.5px; 
+        }
         
         input, select { 
-            width: 100%; padding: 12px 16px; border-radius: 8px; 
-            border: 2px solid #eee; font-size: 14px; transition: 0.3s; outline: none; background: #fafafa; 
+            width: 100%; padding: 12px 14px; border-radius: 8px; 
+            border: 2px solid #eee; font-size: 16px; /* 16px prevents auto-zoom on iOS */
+            outline: none; background: #fafafa; transition: 0.3s;
         }
 
         input:focus, select:focus { border-color: var(--neu-green); background: white; box-shadow: 0 0 0 4px rgba(12, 107, 47, 0.08); }
 
         button { 
-            width: 100%; padding: 15px; background: var(--neu-green); color: white; 
-            border: none; border-radius: 8px; font-size: 15px; font-weight: 700; 
-            cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; margin-top: 10px;
+            width: 100%; padding: 16px; background: var(--neu-green); color: white; 
+            border: none; border-radius: 10px; font-size: 14px; font-weight: 700; 
+            cursor: pointer; text-transform: uppercase; margin-top: 10px; transition: 0.3s;
         }
 
-        button:hover { background: #074a20; transform: translateY(-1px); }
-        .footer { margin-top: 25px; text-align: center; font-size: 10px; color: #ccc; font-weight: 600; text-transform: uppercase; }
+        button:hover { background: var(--neu-hover); transform: translateY(-2px); }
+        .footer { margin-top: 20px; text-align: center; font-size: 10px; color: #bbb; }
 
-        @media (max-width: 768px) { .main-card { flex-direction: column; } .sidebar, .content { width: 100%; padding: 30px; } }
+        /* Responsive Fixes */
+        @media (max-width: 768px) {
+            .main-card { flex-direction: column; }
+            .sidebar { width: 100%; padding: 30px; border-right: none; border-bottom: 1px solid #f2f2f2; }
+            .content { width: 100%; padding: 30px 20px; }
+            .neu-logo { width: 80px; }
+            body { padding: 10px; align-items: flex-start; } /* Mas maganda pag mobile ang simula sa taas */
+        }
     </style>
 </head>
 <body>
@@ -75,11 +117,6 @@
             <label>Student Number</label>
             <input type="text" id="studentId" placeholder="Identification Number">
         </div>
-        
-        <div class="input-group">
-            <label>NEU Email Address</label>
-            <input type="email" id="email" placeholder="student.name@neu.edu.ph">
-        </div>
 
         <div class="input-group">
             <label>Full Name</label>
@@ -89,6 +126,11 @@
         <div class="input-group">
             <label>Program / Course</label>
             <input type="text" id="program" placeholder="Degree and Year/Section">
+        </div>
+
+        <div class="input-group">
+            <label>NEU Email Address</label>
+            <input type="email" id="email" placeholder="student@neu.edu.ph">
         </div>
 
         <div class="input-group">
@@ -132,7 +174,7 @@
         const reason = document.getElementById('reason').value;
 
         if(!studentId || !email || !fullName || !program || !reason) {
-            Swal.fire({ icon: 'warning', title: 'Incomplete Form', text: 'All fields are required for university records.', confirmButtonColor: '#0c6b2f' });
+            Swal.fire({ icon: 'warning', title: 'Incomplete', text: 'All fields are required.', confirmButtonColor: '#0c6b2f' });
             return;
         }
 
@@ -140,12 +182,14 @@
 
         try {
             await addDoc(collection(db, "visitors"), { studentId, email, fullName, program, reason, timestamp: serverTimestamp() });
-            Swal.fire({ icon: 'success', title: 'Welcome to NEU Library', text: `Access Authorized: ${fullName}`, confirmButtonColor: '#0c6b2f' });
+            Swal.fire({ icon: 'success', title: 'Welcome!', text: `Authorized: ${fullName}`, confirmButtonColor: '#0c6b2f' });
             document.querySelectorAll('input').forEach(i => i.value = '');
             document.getElementById('reason').selectedIndex = 0;
         } catch (e) {
-            Swal.fire({ icon: 'error', title: 'System Error', text: 'Please check your connection.' });
-        } finally { btn.disabled = false; btn.innerText = "SIGN IN TO LIBRARY"; }
+            Swal.fire({ icon: 'error', title: 'Error', text: 'Check connection.' });
+        } finally { 
+            btn.disabled = false; btn.innerText = "SIGN IN TO LIBRARY"; 
+        }
     });
 </script>
 </body>
