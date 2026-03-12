@@ -1,196 +1,406 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>NEU Library | Visitor Sign-In</title>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-    
-    <style>
-        :root { 
-            --neu-green: #0c6b2f; 
-            --neu-hover: #084d22;
-        }
-        
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        
-        body { 
-            background: #0c6b2f; 
-            background: linear-gradient(rgba(12, 107, 47, 0.9), rgba(0, 0, 0, 0.8));
-            min-height: 100vh; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            padding: 15px; /* Ginawang 15px para sa mas maliit na screen */
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        .main-card { 
-            background: white; 
-            width: 100%; 
-            max-width: 850px; 
-            display: flex; 
-            flex-direction: row;
-            border-radius: 20px; 
-            overflow: hidden; 
-            box-shadow: 0 30px 60px rgba(0,0,0,0.5); 
-        }
+<title>NEU Library | Visitor Sign-In</title>
 
-        .sidebar { 
-            background: #fff; 
-            width: 35%; 
-            padding: 40px; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-            text-align: center; 
-            border-right: 1px solid #f2f2f2; 
-        }
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-        .neu-logo { width: 100px; margin-bottom: 15px; }
-        .sidebar h1 { font-size: 1.2rem; color: var(--neu-green); font-weight: 800; }
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-        .content { width: 65%; padding: 40px; background: #ffffff; }
-        .form-header { margin-bottom: 25px; }
-        .form-header h2 { 
-            color: #111; 
-            font-size: 24px; 
-            font-weight: 800; 
-            border-bottom: 4px solid var(--neu-green); 
-            display: inline-block; 
-            padding-bottom: 5px; 
-        }
+<style>
 
-        .input-group { margin-bottom: 18px; }
-        label { 
-            display: block; 
-            font-size: 10px; 
-            font-weight: 800; 
-            color: #666; 
-            text-transform: uppercase; 
-            margin-bottom: 6px; 
-            letter-spacing: 0.5px; 
-        }
-        
-        input, select { 
-            width: 100%; padding: 12px 14px; border-radius: 8px; 
-            border: 2px solid #eee; font-size: 16px; /* 16px prevents auto-zoom on iOS */
-            outline: none; background: #fafafa; transition: 0.3s;
-        }
+:root{
+--neu-green:#074a21;
+--neu-hover:#053618;
+--bg-gradient:linear-gradient(135deg,#074a21 0%,#021a0b 100%);
+}
 
-        input:focus, select:focus { border-color: var(--neu-green); background: white; box-shadow: 0 0 0 4px rgba(12, 107, 47, 0.08); }
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Inter',sans-serif;
+}
 
-        button { 
-            width: 100%; padding: 16px; background: var(--neu-green); color: white; 
-            border: none; border-radius: 10px; font-size: 14px; font-weight: 700; 
-            cursor: pointer; text-transform: uppercase; margin-top: 10px; transition: 0.3s;
-        }
+body{
+background:var(--bg-gradient);
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:20px;
+}
 
-        button:hover { background: var(--neu-hover); transform: translateY(-2px); }
-        .footer { margin-top: 20px; text-align: center; font-size: 10px; color: #bbb; }
+/* MAIN CARD */
 
-        /* Responsive Fixes */
-        @media (max-width: 768px) {
-            .main-card { flex-direction: column; }
-            .sidebar { width: 100%; padding: 30px; border-right: none; border-bottom: 1px solid #f2f2f2; }
-            .content { width: 100%; padding: 30px 20px; }
-            .neu-logo { width: 80px; }
-            body { padding: 10px; align-items: flex-start; } /* Mas maganda pag mobile ang simula sa taas */
-        }
-    </style>
+.main-card{
+background:white;
+width:100%;
+max-width:900px;
+display:flex;
+border-radius:24px;
+overflow:hidden;
+box-shadow:0 25px 50px rgba(0,0,0,0.35);
+}
+
+/* SIDEBAR */
+
+.sidebar{
+background:#ffffff;
+width:38%;
+padding:40px;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+text-align:center;
+border-right:1px solid #f0f0f0;
+}
+
+.neu-logo{
+width:110px;
+margin-bottom:18px;
+}
+
+.sidebar h1{
+font-size:1.3rem;
+color:var(--neu-green);
+font-weight:800;
+line-height:1.2;
+}
+
+.sidebar p{
+font-size:0.85rem;
+color:#666;
+margin-top:8px;
+}
+
+/* CONTENT */
+
+.content{
+width:62%;
+padding:40px;
+}
+
+.form-header{
+margin-bottom:25px;
+}
+
+.form-header h2{
+color:#1a1a1a;
+font-size:26px;
+font-weight:800;
+}
+
+.form-header .line{
+width:50px;
+height:5px;
+background:var(--neu-green);
+margin-top:6px;
+border-radius:10px;
+}
+
+.time{
+font-size:13px;
+color:#666;
+margin-top:6px;
+}
+
+/* FORM */
+
+.input-group{
+margin-bottom:18px;
+}
+
+label{
+display:block;
+font-size:11px;
+font-weight:700;
+color:var(--neu-green);
+text-transform:uppercase;
+margin-bottom:6px;
+letter-spacing:0.8px;
+}
+
+input,select{
+width:100%;
+padding:14px;
+border-radius:12px;
+border:2px solid #edf2f7;
+font-size:15px;
+outline:none;
+background:#f8fafc;
+transition:0.2s;
+}
+
+input:focus,select:focus{
+border-color:var(--neu-green);
+background:white;
+box-shadow:0 0 0 3px rgba(7,74,33,0.1);
+}
+
+/* BUTTON */
+
+button{
+width:100%;
+padding:16px;
+background:var(--neu-green);
+color:white;
+border:none;
+border-radius:14px;
+font-size:15px;
+font-weight:700;
+cursor:pointer;
+margin-top:10px;
+transition:0.25s;
+}
+
+button:hover{
+background:var(--neu-hover);
+transform:translateY(-2px);
+box-shadow:0 10px 15px rgba(7,74,33,0.3);
+}
+
+.footer{
+margin-top:20px;
+text-align:center;
+font-size:11px;
+color:#a0aec0;
+}
+
+/* TABLET */
+
+@media (max-width:900px){
+
+.main-card{
+flex-direction:column;
+max-width:600px;
+}
+
+.sidebar{
+width:100%;
+border-right:none;
+border-bottom:1px solid #f0f0f0;
+padding:30px;
+}
+
+.content{
+width:100%;
+padding:30px;
+}
+
+}
+
+/* MOBILE */
+
+@media (max-width:480px){
+
+body{
+padding:10px;
+}
+
+.main-card{
+border-radius:16px;
+}
+
+.sidebar{
+padding:25px 20px;
+}
+
+.neu-logo{
+width:85px;
+}
+
+.sidebar h1{
+font-size:1.1rem;
+}
+
+.content{
+padding:22px;
+}
+
+.form-header h2{
+font-size:22px;
+}
+
+input,select{
+font-size:14px;
+padding:12px;
+}
+
+button{
+padding:14px;
+font-size:14px;
+}
+
+}
+
+</style>
+
 </head>
+
 <body>
 
 <div class="main-card">
-    <div class="sidebar">
-        <img src="neu-logo.png" alt="NEU Logo" class="neu-logo">
-        <h1>NEW ERA<br>UNIVERSITY</h1>
-    </div>
 
-    <div class="content">
-        <div class="form-header">
-            <h2>Visitor Sign-In</h2>
-        </div>
+<div class="sidebar">
+<img src="neu-logo.png" class="neu-logo">
+<h1>NEW ERA<br>UNIVERSITY</h1>
+<p>University Library System</p>
+</div>
 
-        <div class="input-group">
-            <label>Student Number</label>
-            <input type="text" id="studentId" placeholder="Identification Number">
-        </div>
+<div class="content">
 
-        <div class="input-group">
-            <label>Full Name</label>
-            <input type="text" id="fullName" placeholder="Last Name, First Name M.I.">
-        </div>
+<div class="form-header">
+<h2>Visitor Sign-In</h2>
+<div class="line"></div>
+<div id="time" class="time"></div>
+</div>
 
-        <div class="input-group">
-            <label>Program / Course</label>
-            <input type="text" id="program" placeholder="Degree and Year/Section">
-        </div>
+<div class="input-group">
+<label>Student Number</label>
+<input type="text" id="studentId" placeholder="Enter Registration Number" maxlength="12">
+</div>
 
-        <div class="input-group">
-            <label>NEU Email Address</label>
-            <input type="email" id="email" placeholder="student@neu.edu.ph">
-        </div>
+<div class="input-group">
+<label>Full Name</label>
+<input type="text" id="fullName" placeholder="Last Name, First Name">
+</div>
 
-        <div class="input-group">
-            <label>Purpose of Visit</label>
-            <select id="reason">
-                <option value="" disabled selected>Select activity...</option>
-                <option value="Reading">Self-Study / Reading</option>
-                <option value="Research">Research & Reference</option>
-                <option value="Use Computer">Computer / Internet Use</option>
-                <option value="Meeting">Group Study Session</option>
-            </select>
-        </div>
+<div class="input-group">
+<label>Program / Course</label>
+<input type="text" id="program" placeholder="Degree Program and Section">
+</div>
 
-        <button id="submitBtn">Sign In to Library</button>
-        <p class="footer">NEU Library Management System © 2026</p>
-    </div>
+<div class="input-group">
+<label>NEU Email Address</label>
+<input type="email" id="email" placeholder="official.email@neu.edu.ph">
+</div>
+
+<div class="input-group">
+<label>Purpose of Visit</label>
+
+<select id="reason">
+<option value="" disabled selected>Please select an option...</option>
+<option value="Reading">Self-Study / Reading</option>
+<option value="Research">Research & Reference</option>
+<option value="Use Computer">Computer / Internet Use</option>
+<option value="Meeting">Group Study Session</option>
+</select>
+
+</div>
+
+<button id="submitBtn">SIGN IN TO LIBRARY</button>
+
+<p class="footer">NEU Library Management System © 2026</p>
+
+</div>
 </div>
 
 <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyCFBZ7rZ-LyKuy0W0J6VjET1auqAM7GMFM",
-        authDomain: "neu-library-visitor-log-eb7d8.firebaseapp.com",
-        projectId: "neu-library-visitor-log-eb7d8",
-        storageBucket: "neu-library-visitor-log-eb7d8.firebasestorage.app",
-        messagingSenderId: "168137481697",
-        appId: "1:168137481697:web:184188a3f657b79c2906a0"
-    };
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getFirestore,collection,addDoc,serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const btn = document.getElementById('submitBtn');
+const firebaseConfig={
+apiKey:"AIzaSyCFBZ7rZ-LyKuy0W0J6VjET1auqAM7GMFM",
+authDomain:"neu-library-visitor-log-eb7d8.firebaseapp.com",
+projectId:"neu-library-visitor-log-eb7d8",
+storageBucket:"neu-library-visitor-log-eb7d8.appspot.com",
+messagingSenderId:"168137481697",
+appId:"1:168137481697:web:184188a3f657b79c2906a0"
+};
 
-    btn.addEventListener('click', async () => {
-        const studentId = document.getElementById('studentId').value.trim();
-        const email = document.getElementById('email').value.trim();
-        const fullName = document.getElementById('fullName').value.trim();
-        const program = document.getElementById('program').value.trim();
-        const reason = document.getElementById('reason').value;
+const app=initializeApp(firebaseConfig);
+const db=getFirestore(app);
 
-        if(!studentId || !email || !fullName || !program || !reason) {
-            Swal.fire({ icon: 'warning', title: 'Incomplete', text: 'All fields are required.', confirmButtonColor: '#0c6b2f' });
-            return;
-        }
+const btn=document.getElementById("submitBtn");
 
-        btn.disabled = true; btn.innerText = "PROCESSING...";
+btn.addEventListener("click",async()=>{
 
-        try {
-            await addDoc(collection(db, "visitors"), { studentId, email, fullName, program, reason, timestamp: serverTimestamp() });
-            Swal.fire({ icon: 'success', title: 'Welcome!', text: `Authorized: ${fullName}`, confirmButtonColor: '#0c6b2f' });
-            document.querySelectorAll('input').forEach(i => i.value = '');
-            document.getElementById('reason').selectedIndex = 0;
-        } catch (e) {
-            Swal.fire({ icon: 'error', title: 'Error', text: 'Check connection.' });
-        } finally { 
-            btn.disabled = false; btn.innerText = "SIGN IN TO LIBRARY"; 
-        }
-    });
+const studentId=document.getElementById("studentId").value.trim();
+const email=document.getElementById("email").value.trim();
+const fullName=document.getElementById("fullName").value.trim();
+const program=document.getElementById("program").value.trim();
+const reason=document.getElementById("reason").value;
+
+if(!studentId||!email||!fullName||!program||!reason){
+
+Swal.fire({
+icon:"warning",
+title:"Action Required",
+text:"All fields must be completed.",
+confirmButtonColor:"#074a21"
+});
+
+return;
+
+}
+
+if(!email.endsWith("@neu.edu.ph")){
+
+Swal.fire({
+icon:"error",
+title:"Invalid Email",
+text:"Please use your NEU official email.",
+confirmButtonColor:"#074a21"
+});
+
+return;
+
+}
+
+btn.disabled=true;
+btn.innerText="PROCESSING...";
+
+try{
+
+await addDoc(collection(db,"visitors"),{
+studentId,
+email,
+fullName,
+program,
+reason,
+timestamp:serverTimestamp()
+});
+
+Swal.fire({
+icon:"success",
+title:"Verified",
+text:`Welcome, ${fullName}`,
+confirmButtonColor:"#074a21"
+});
+
+document.querySelectorAll("input").forEach(i=>i.value="");
+document.getElementById("reason").selectedIndex=0;
+
+}catch(e){
+
+Swal.fire({
+icon:"error",
+title:"System Error",
+text:"Unable to connect to database."
+});
+
+}finally{
+
+btn.disabled=false;
+btn.innerText="SIGN IN TO LIBRARY";
+
+}
+
+});
+
+setInterval(()=>{
+document.getElementById("time").innerText=
+new Date().toLocaleString();
+},1000);
+
 </script>
+
 </body>
 </html>
