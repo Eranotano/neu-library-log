@@ -1,267 +1,413 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEU Library Admin</title>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <style>
-        :root {
-            --neu-green: #0c6b2f;
-            --neu-green-hover: #084d22;
-            --bg-body: #f4f7f6;
-            --text-main: #1e293b;
-            --text-muted: #64748b;
-            --border: #e2e8f0;
-            --white: #ffffff;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEU Library Admin</title>
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', -apple-system, sans-serif; }
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
 
-        body { background-color: var(--bg-body); color: var(--text-main); padding: 15px; }
+<style>
 
-        .container { max-width: 1200px; margin: 0 auto; }
+body{
+font-family:Arial, sans-serif;
+background:#f4f7f6;
+margin:0;
+padding:20px;
+}
 
-        /* Header Section */
-        header { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            margin-bottom: 20px;
-            padding: 15px;
-            background: var(--white);
-            border-radius: 12px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
+.container{
+max-width:1200px;
+margin:auto;
+}
 
-        .brand h1 { font-size: 1.2rem; color: var(--neu-green); font-weight: 700; }
-        .brand p { font-size: 0.75rem; color: var(--text-muted); }
-        header img { height: 40px; }
+/* HEADER */
 
-        /* Stats Grid - Responsive */
-        .stats-grid { 
-            display: grid; 
-            grid-template-columns: repeat(2, 1fr); /* 2 columns sa mobile */
-            gap: 10px; 
-            margin-bottom: 20px; 
-        }
+.header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:white;
+padding:15px 20px;
+border-radius:10px;
+margin-bottom:20px;
+box-shadow:0 3px 8px rgba(0,0,0,0.08);
+flex-wrap:wrap;
+}
 
-        @media (min-width: 768px) {
-            .stats-grid { grid-template-columns: repeat(4, 1fr); gap: 20px; } /* 4 columns sa desktop */
-            .brand h1 { font-size: 1.5rem; }
-            body { padding: 30px; }
-        }
+.logo-area{
+display:flex;
+align-items:center;
+gap:12px;
+}
 
-        .stat-card { 
-            background: var(--white); 
-            padding: 15px; 
-            border-radius: 12px; 
-            border: 1px solid var(--border);
-            text-align: center;
-        }
+.logo{
+width:55px;
+height:55px;
+}
 
-        .stat-card span { font-size: 0.65rem; text-transform: uppercase; font-weight: 600; color: var(--text-muted); display: block; margin-bottom: 5px; }
-        .stat-card strong { font-size: 1.4rem; color: var(--neu-green); }
+.logo-area h1{
+font-size:18px;
+color:#0c6b2f;
+margin:0;
+}
 
-        /* Controls Section */
-        .controls { 
-            display: flex; 
-            flex-direction: column; /* Stack sa mobile */
-            gap: 10px; 
-            margin-bottom: 15px; 
-        }
+.logo-area p{
+font-size:13px;
+color:#555;
+margin:0;
+}
 
-        @media (min-width: 768px) {
-            .controls { flex-direction: row; } /* Side-by-side sa desktop */
-        }
+.exportBtn{
+background:#0c6b2f;
+color:white;
+border:none;
+padding:10px 16px;
+border-radius:6px;
+cursor:pointer;
+font-weight:600;
+}
 
-        #searchInput { 
-            flex: 1; 
-            padding: 12px; 
-            border: 1px solid var(--border); 
-            border-radius: 8px; 
-            font-size: 0.95rem; 
-            outline: none;
-            box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
-        }
+.exportBtn:hover{
+background:#095426;
+}
 
-        .btn-export { 
-            background: var(--neu-green); 
-            color: white; 
-            padding: 12px 20px; 
-            border: none; 
-            border-radius: 8px; 
-            font-weight: 600; 
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
+/* STATS */
 
-        /* Table Section - Scrollable on mobile */
-        .table-wrap { 
-            background: var(--white); 
-            border-radius: 12px; 
-            border: 1px solid var(--border); 
-            overflow-x: auto; /* Enable horizontal scroll for mobile */
-            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-        }
+.stats{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+gap:15px;
+margin-bottom:25px;
+}
 
-        table { width: 100%; border-collapse: collapse; min-width: 600px; /* Sinisiguro na hindi sobrang sikip sa maliit na screen */ }
+.card{
+background:white;
+padding:18px;
+border-radius:10px;
+text-align:center;
+box-shadow:0 2px 6px rgba(0,0,0,0.06);
+}
 
-        th { 
-            background: #f8fafc; 
-            padding: 12px 15px; 
-            font-size: 0.75rem; 
-            text-transform: uppercase; 
-            color: var(--text-muted);
-            border-bottom: 1px solid var(--border);
-        }
+.card span{
+font-size:13px;
+color:#777;
+}
 
-        td { padding: 12px 15px; font-size: 0.85rem; border-bottom: 1px solid #f8fafc; }
+.card strong{
+font-size:22px;
+display:block;
+margin-top:5px;
+color:#0c6b2f;
+}
 
-        .tag {
-            font-size: 0.7rem;
-            padding: 3px 8px;
-            border-radius: 5px;
-            font-weight: 600;
-            background: #f1f5f9;
-            color: #475569;
-            white-space: nowrap;
-        }
+/* SEARCH */
 
-        .btn-del { 
-            color: #ef4444; 
-            background: #fff5f5; 
-            border: 1px solid #fee2e2; 
-            padding: 8px; 
-            border-radius: 6px; 
-            cursor: pointer; 
-        }
-    </style>
+.controls{
+margin-bottom:15px;
+}
+
+.controls input{
+width:100%;
+padding:12px;
+border:1px solid #ddd;
+border-radius:6px;
+font-size:14px;
+}
+
+/* TABLE */
+
+.table-container{
+overflow-x:auto;
+background:white;
+border-radius:10px;
+box-shadow:0 2px 6px rgba(0,0,0,0.05);
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th,td{
+padding:12px;
+border-bottom:1px solid #eee;
+font-size:14px;
+}
+
+th{
+background:#f9fafb;
+text-align:left;
+}
+
+tr:hover{
+background:#f6f6f6;
+}
+
+.deleteBtn{
+background:#fee2e2;
+color:red;
+border:none;
+padding:6px 10px;
+border-radius:6px;
+cursor:pointer;
+font-size:13px;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+.header{
+flex-direction:column;
+align-items:flex-start;
+gap:10px;
+}
+
+.exportBtn{
+width:100%;
+}
+
+.card strong{
+font-size:18px;
+}
+
+}
+
+</style>
 </head>
+
 <body>
 
 <div class="container">
-    <header>
-        <div class="brand">
-            <h1>Library Admin</h1>
-            <p>NEU Visitor Monitor</p>
-        </div>
-        <img src="neu-logo.png" alt="Logo">
-    </header>
 
-    <div class="stats-grid">
-        <div class="stat-card"><span>Total</span><strong id="totalCount">0</strong></div>
-        <div class="stat-card"><span>Reading</span><strong id="readingCount">0</strong></div>
-        <div class="stat-card"><span>Research</span><strong id="researchCount">0</strong></div>
-        <div class="stat-card"><span>PC Use</span><strong id="computerCount">0</strong></div>
-    </div>
+<!-- HEADER -->
 
-    <div class="controls">
-        <input type="text" id="searchInput" placeholder="Search name or ID...">
-        <button class="btn-export" id="downloadPDF"><i class="fas fa-file-pdf"></i> Export</button>
-    </div>
+<div class="header">
 
-    <div class="table-wrap">
-        <table>
-            <thead>
-                <tr>
-                    <th>Date/Time</th>
-                    <th>ID & Name</th>
-                    <th>Program</th>
-                    <th>Reason</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody id="tableBody"></tbody>
-        </table>
-    </div>
+<div class="logo-area">
+<img src="neu-logo.png" class="logo">
+
+<div>
+<h1>New Era University</h1>
+<p>Library Monitoring System – Admin Dashboard</p>
+</div>
+
+</div>
+
+<button class="exportBtn" id="downloadPDF">
+Export Visitor Report
+</button>
+
+</div>
+
+<!-- STATS -->
+
+<div class="stats">
+
+<div class="card">
+<span>Visitors Today</span>
+<strong id="todayCount">0</strong>
+</div>
+
+<div class="card">
+<span>Reading</span>
+<strong id="readingCount">0</strong>
+</div>
+
+<div class="card">
+<span>Research</span>
+<strong id="researchCount">0</strong>
+</div>
+
+<div class="card">
+<span>Computer Use</span>
+<strong id="computerCount">0</strong>
+</div>
+
+</div>
+
+<!-- SEARCH -->
+
+<div class="controls">
+<input type="text" id="searchInput" placeholder="Search student name or ID">
+</div>
+
+<!-- TABLE -->
+
+<div class="table-container">
+
+<table>
+
+<thead>
+<tr>
+<th>Date</th>
+<th>Student ID</th>
+<th>Name</th>
+<th>Program</th>
+<th>Purpose</th>
+<th>Action</th>
+</tr>
+</thead>
+
+<tbody id="tableBody"></tbody>
+
+</table>
+
+</div>
+
 </div>
 
 <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, query, orderBy, onSnapshot, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyCFBZ7rZ-LyKuy0W0J6VjET1auqAM7GMFM",
-        authDomain: "neu-library-visitor-log-eb7d8.firebaseapp.com",
-        projectId: "neu-library-visitor-log-eb7d8",
-        storageBucket: "neu-library-visitor-log-eb7d8.firebasestorage.app",
-        messagingSenderId: "168137481697",
-        appId: "1:168137481697:web:184188a3f657b79c2906a0"
-    };
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getFirestore, collection, query, orderBy, onSnapshot, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    let allLogs = [];
+const firebaseConfig = {
+apiKey: "AIzaSyCFBZ7rZ-LyKuy0W0J6VjET1auqAM7GMFM",
+authDomain: "neu-library-visitor-log-eb7d8.firebaseapp.com",
+projectId: "neu-library-visitor-log-eb7d8",
+storageBucket: "neu-library-visitor-log-eb7d8.appspot.com",
+messagingSenderId: "168137481697",
+appId: "1:168137481697:web:184188a3f657b79c2906a0"
+};
 
-    onSnapshot(query(collection(db, "visitors"), orderBy("timestamp", "desc")), (snapshot) => {
-        allLogs = [];
-        snapshot.forEach(doc => allLogs.push({ id: doc.id, ...doc.data() }));
-        renderData(allLogs);
-        updateStats(allLogs);
-    });
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-    window.deleteRecord = async (id) => {
-        const result = await Swal.fire({
-            title: 'Delete record?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#0c6b2f',
-            confirmButtonText: 'Yes'
-        });
-        if (result.isConfirmed) await deleteDoc(doc(db, "visitors", id));
-    };
+let allLogs = [];
 
-    function renderData(data) {
-        const tableBody = document.getElementById('tableBody');
-        tableBody.innerHTML = data.map(log => `
-            <tr>
-                <td style="color: var(--text-muted); font-size: 0.75rem;">
-                    ${log.timestamp ? log.timestamp.toDate().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) : "---"}<br>
-                    <small>${log.timestamp ? log.timestamp.toDate().toLocaleDateString() : ""}</small>
-                </td>
-                <td>
-                    <div style="font-weight: 700;">${log.fullName}</div>
-                    <div style="font-size: 0.7rem; color: var(--text-muted)">${log.studentId || "N/A"}</div>
-                </td>
-                <td>${log.program}</td>
-                <td><span class="tag">${log.reason}</span></td>
-                <td><button class="btn-del" onclick="deleteRecord('${log.id}')"><i class="fas fa-trash"></i></button></td>
-            </tr>`).join('');
-    }
+onSnapshot(query(collection(db,"visitors"), orderBy("timestamp","desc")), snapshot => {
 
-    function updateStats(data) {
-        document.getElementById('totalCount').innerText = data.length;
-        document.getElementById('readingCount').innerText = data.filter(l => l.reason === 'Reading').length;
-        document.getElementById('researchCount').innerText = data.filter(l => l.reason === 'Research').length;
-        document.getElementById('computerCount').innerText = data.filter(l => l.reason === 'Use Computer').length;
-    }
+allLogs=[];
 
-    // PDF Export function (same as before)
-    document.getElementById('downloadPDF').addEventListener('click', () => {
-        const { jsPDF } = window.jspdf;
-        const docPDF = new jsPDF();
-        docPDF.text("NEU Library Logs", 14, 15);
-        const tableData = allLogs.map(l => [
-            l.timestamp ? l.timestamp.toDate().toLocaleString() : "",
-            l.studentId || "N/A", l.fullName, l.program, l.reason
-        ]);
-        docPDF.autoTable({
-            head: [['Date', 'ID', 'Name', 'Program', 'Reason']],
-            body: tableData,
-            startY: 25,
-            headStyles: { fillColor: [12, 107, 47] }
-        });
-        docPDF.save("NEU_Logs.pdf");
-    });
+snapshot.forEach(d=>{
+allLogs.push({id:d.id,...d.data()});
+});
+
+renderTable(allLogs);
+updateStats(allLogs);
+
+});
+
+function renderTable(data){
+
+const body=document.getElementById("tableBody");
+
+body.innerHTML=data.map(v=>{
+
+const date=v.timestamp? v.timestamp.toDate().toLocaleString():"";
+
+return`
+
+<tr>
+
+<td>${date}</td>
+<td>${v.studentId||""}</td>
+<td>${v.fullName||""}</td>
+<td>${v.program||""}</td>
+<td>${v.reason||""}</td>
+
+<td>
+<button class="deleteBtn" onclick="deleteRecord('${v.id}')">
+Delete
+</button>
+</td>
+
+</tr>
+
+`;
+
+}).join("");
+
+}
+
+window.deleteRecord=async(id)=>{
+
+const result=await Swal.fire({
+title:"Delete this record?",
+icon:"warning",
+showCancelButton:true,
+confirmButtonText:"Delete"
+});
+
+if(result.isConfirmed){
+
+await deleteDoc(doc(db,"visitors",id));
+
+}
+
+};
+
+function updateStats(data){
+
+const today=new Date().toLocaleDateString();
+
+const todayVisitors=data.filter(v=>
+v.timestamp &&
+v.timestamp.toDate().toLocaleDateString()===today
+);
+
+document.getElementById("todayCount").innerText=todayVisitors.length;
+
+document.getElementById("readingCount").innerText=
+data.filter(v=>v.reason==="Reading").length;
+
+document.getElementById("researchCount").innerText=
+data.filter(v=>v.reason==="Research").length;
+
+document.getElementById("computerCount").innerText=
+data.filter(v=>v.reason==="Use Computer").length;
+
+}
+
+document.getElementById("searchInput").addEventListener("input",e=>{
+
+const keyword=e.target.value.toLowerCase();
+
+const filtered=allLogs.filter(v=>
+
+(v.fullName||"").toLowerCase().includes(keyword) ||
+
+(v.studentId||"").toLowerCase().includes(keyword)
+
+);
+
+renderTable(filtered);
+
+});
+
+document.getElementById("downloadPDF").addEventListener("click",()=>{
+
+const { jsPDF }=window.jspdf;
+
+const pdf=new jsPDF();
+
+pdf.text("New Era University Library Visitor Log Report",14,15);
+
+const rows=allLogs.map(v=>[
+
+v.timestamp? v.timestamp.toDate().toLocaleString():"",
+v.studentId,
+v.fullName,
+v.program,
+v.reason
+
+]);
+
+pdf.autoTable({
+head:[["Date","Student ID","Name","Program","Purpose"]],
+body:rows,
+startY:20
+});
+
+pdf.save("NEU_Library_Report.pdf");
+
+});
+
 </script>
+
 </body>
 </html>
