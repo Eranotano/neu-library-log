@@ -2,70 +2,101 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>NEU Library | Visitor Sign-In</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEU Library | Visitor Entry</title>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     
     <style>
-        :root { --neu-green: #0c6b2f; --neu-hover: #084d22; }
+        :root { --neu-green: #0c6b2f; --bg-gray: #f4f7f6; }
+        
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         
         body { 
-            background: linear-gradient(135deg, rgba(12, 107, 47, 0.9), rgba(0, 0, 0, 0.8)),
+            background: linear-gradient(rgba(12, 107, 47, 0.8), rgba(12, 107, 47, 0.8)), 
                         url('https://www.neu.edu.ph/main/images/bg-main.jpg') no-repeat center center fixed;
             background-size: cover;
-            min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 15px;
+            min-height: 100vh; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            padding: 15px; 
         }
 
         .main-card { 
-            background: white; width: 100%; max-width: 850px; display: flex; 
-            flex-direction: row; border-radius: 20px; overflow: hidden; 
-            box-shadow: 0 30px 60px rgba(0,0,0,0.5); 
+            background: white; 
+            width: 100%; 
+            max-width: 900px; 
+            display: flex; 
+            flex-direction: row; /* Default side-by-side */
+            border-radius: 16px; 
+            overflow: hidden; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3); 
         }
 
+        /* Sidebar - Logo Section */
         .sidebar { 
-            background: #fff; width: 35%; padding: 40px; display: flex; 
-            flex-direction: column; align-items: center; justify-content: center; 
-            text-align: center; border-right: 1px solid #f2f2f2; 
+            background: #fff; 
+            width: 35%; 
+            padding: 40px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            text-align: center; 
+            border-right: 1px solid #eee; 
         }
 
-        /* Inayos ang logo: Nilakihan para pormal */
-        .neu-logo { width: 130px; margin-bottom: 15px; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1)); }
-        .sidebar h1 { font-size: 1.2rem; color: var(--neu-green); font-weight: 800; line-height: 1.2; }
+        .neu-logo { width: 100px; margin-bottom: 15px; }
+        .sidebar h1 { font-size: 1.2rem; color: var(--neu-green); font-weight: 800; }
 
+        /* Content - Form Section */
         .content { width: 65%; padding: 40px; background: #ffffff; }
         .form-header { margin-bottom: 25px; }
-        .form-header h2 { 
-            color: #111; font-size: 24px; font-weight: 800; 
-            border-bottom: 4px solid var(--neu-green); display: inline-block; padding-bottom: 5px; 
-        }
+        .form-header h2 { color: #111; font-size: 24px; font-weight: 800; color: var(--neu-green); }
+        .form-header p { font-size: 0.9rem; color: #666; margin-top: 5px; }
 
-        .input-group { margin-bottom: 18px; }
-        label { display: block; font-size: 10px; font-weight: 800; color: #666; text-transform: uppercase; margin-bottom: 6px; letter-spacing: 0.5px; }
+        .input-group { margin-bottom: 15px; }
+        label { display: block; font-size: 11px; font-weight: 700; color: #444; text-transform: uppercase; margin-bottom: 6px; }
         
         input, select { 
-            width: 100%; padding: 12px 14px; border-radius: 8px; 
-            border: 2px solid #eee; font-size: 16px; outline: none; background: #fafafa; transition: 0.3s;
+            width: 100%; 
+            padding: 12px 15px; 
+            border-radius: 8px; 
+            border: 1.5px solid #ddd; 
+            font-size: 15px; 
+            outline: none; 
+            background: #fdfdfd; 
+            transition: all 0.3s;
         }
 
-        input:focus, select:focus { border-color: var(--neu-green); background: white; box-shadow: 0 0 0 4px rgba(12, 107, 47, 0.08); }
+        input:focus, select:focus { border-color: var(--neu-green); box-shadow: 0 0 0 3px rgba(12, 107, 47, 0.1); }
 
         button { 
-            width: 100%; padding: 16px; background: var(--neu-green); color: white; 
-            border: none; border-radius: 10px; font-size: 14px; font-weight: 700; 
-            cursor: pointer; text-transform: uppercase; margin-top: 10px; transition: 0.3s;
+            width: 100%; 
+            padding: 15px; 
+            background: var(--neu-green); 
+            color: white; 
+            border: none; 
+            border-radius: 8px; 
+            font-size: 16px; 
+            font-weight: 700; 
+            cursor: pointer; 
+            transition: 0.3s; 
+            margin-top: 10px;
         }
 
-        button:hover { background: var(--neu-hover); transform: translateY(-2px); }
-        .footer { margin-top: 20px; text-align: center; font-size: 10px; color: #bbb; }
+        button:hover { background: #084d22; }
+        .footer { margin-top: 20px; text-align: center; font-size: 11px; color: #999; }
 
+        /* Responsive Breakpoints */
         @media (max-width: 768px) {
-            .main-card { flex-direction: column; }
-            .sidebar { width: 100%; padding: 30px; border-right: none; border-bottom: 1px solid #f2f2f2; }
+            .main-card { flex-direction: column; max-width: 500px; }
+            .sidebar { width: 100%; padding: 30px 20px; border-right: none; border-bottom: 1px solid #eee; }
             .content { width: 100%; padding: 30px 20px; }
-            .neu-logo { width: 100px; }
-            body { padding: 10px; align-items: flex-start; }
+            .neu-logo { width: 80px; }
+            .sidebar h1 { font-size: 1rem; }
+            body { padding: 10px; }
         }
     </style>
 </head>
@@ -73,35 +104,35 @@
 
 <div class="main-card">
     <div class="sidebar">
-        <img src="https://raw.githubusercontent.com/Fera-Tano/neu-library-log/main/neu-logo.png" 
-             onerror="this.src='https://upload.wikimedia.org/wikipedia/en/thumb/0/09/New_Era_University_logo.svg/1200px-New_Era_University_logo.svg.png'"
-             alt="NEU Logo" class="neu-logo">
-        <h1>NEW ERA<br>UNIVERSITY</h1>
+        <img src="neu-logo.png" alt="NEU Logo" class="neu-logo">
+        <h1>NEW ERA UNIVERSITY</h1>
+        <p style="font-size: 0.7rem; color: #888; margin-top: 5px;">University Library</p>
     </div>
 
     <div class="content">
         <div class="form-header">
-            <h2>Visitor Sign-In</h2>
+            <h2>Sign In</h2>
+            <p>Please provide your details below.</p>
         </div>
 
         <div class="input-group">
             <label>Student Number</label>
-            <input type="text" id="studentId" placeholder="Identification Number">
+            <input type="text" id="studentId" placeholder="20XX-XXXXX-X">
         </div>
-
+        
         <div class="input-group">
             <label>Full Name</label>
-            <input type="text" id="fullName" placeholder="Last Name, First Name M.I.">
+            <input type="text" id="fullName" placeholder="Juan Dela Cruz">
         </div>
 
         <div class="input-group">
             <label>Program / Course</label>
-            <input type="text" id="program" placeholder="Degree and Year/Section">
+            <input type="text" id="program" placeholder="BSCS 3-1">
         </div>
 
         <div class="input-group">
-            <label>NEU Email Address</label>
-            <input type="email" id="email" placeholder="student@neu.edu.ph">
+            <label>Email Address</label>
+            <input type="email" id="email" placeholder="email@neu.edu.ph">
         </div>
 
         <div class="input-group">
@@ -111,12 +142,12 @@
                 <option value="Reading">Self-Study / Reading</option>
                 <option value="Research">Research & Reference</option>
                 <option value="Use Computer">Computer / Internet Use</option>
-                <option value="Meeting">Group Study Session</option>
+                <option value="Meeting">Group Study</option>
             </select>
         </div>
 
-        <button id="submitBtn">Sign In to Library</button>
-        <p class="footer">NEU Library Management System © 2026</p>
+        <button id="submitBtn">LOG ENTRY</button>
+        <p class="footer">Digital Logbook System © 2026</p>
     </div>
 </div>
 
@@ -124,6 +155,7 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
+    // Same Firebase Config
     const firebaseConfig = {
         apiKey: "AIzaSyCFBZ7rZ-LyKuy0W0J6VjET1auqAM7GMFM",
         authDomain: "neu-library-visitor-log-eb7d8.firebaseapp.com",
@@ -145,20 +177,22 @@
         const reason = document.getElementById('reason').value;
 
         if(!studentId || !email || !fullName || !program || !reason) {
-            Swal.fire({ icon: 'warning', title: 'Incomplete', text: 'All fields are required.', confirmButtonColor: '#0c6b2f' });
+            Swal.fire({ icon: 'warning', title: 'Oops!', text: 'Pakikumpleto po ang lahat ng fields.', confirmButtonColor: '#0c6b2f' });
             return;
         }
 
-        btn.disabled = true; btn.innerText = "PROCESSING...";
+        btn.disabled = true; btn.innerText = "SAVING...";
 
         try {
             await addDoc(collection(db, "visitors"), { studentId, email, fullName, program, reason, timestamp: serverTimestamp() });
-            Swal.fire({ icon: 'success', title: 'Welcome!', text: `Authorized: ${fullName}`, confirmButtonColor: '#0c6b2f' });
-            document.querySelectorAll('input').forEach(i => i.value = ''); 
+            Swal.fire({ icon: 'success', title: 'Sign-in Successful', text: `Welcome to the Library, ${fullName}!`, confirmButtonColor: '#0c6b2f' });
+            
+            // Clear inputs
+            document.querySelectorAll('input').forEach(i => i.value = '');
             document.getElementById('reason').selectedIndex = 0;
         } catch (e) {
-            Swal.fire({ icon: 'error', title: 'Error', text: 'Check connection.' });
-        } finally { btn.disabled = false; btn.innerText = "SIGN IN TO LIBRARY"; }
+            Swal.fire({ icon: 'error', title: 'Error', text: 'Hindi maipadala ang data. Check connection.' });
+        } finally { btn.disabled = false; btn.innerText = "LOG ENTRY"; }
     });
 </script>
 </body>
