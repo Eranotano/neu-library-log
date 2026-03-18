@@ -12,158 +12,76 @@
 :root{ --neu-green:#074a21; --bg-gradient:linear-gradient(135deg,#074a21 0%,#021a0b 100%); }
 *{ margin:0; padding:0; box-sizing:border-box; font-family:'Inter',sans-serif; }
 
-body{
- background:var(--bg-gradient);
- min-height:100vh;
- display:flex;
- justify-content:center;
- align-items:center;
- padding:20px;
-}
+body{ background:var(--bg-gradient); min-height:100vh; display:flex; justify-content:center; align-items:center; padding:20px; }
 
-.main-card{
- background:white;
- width:100%;
- max-width:850px;
- display:flex;
- border-radius:24px;
- overflow:hidden;
- box-shadow:0 25px 50px rgba(0,0,0,0.35);
-}
-
-.sidebar{
- width:40%;
- padding:40px;
- text-align:center;
- border-right:1px solid #eee;
- display:flex;
- flex-direction:column;
- align-items:center;
- justify-content:center;
-}
-
+.main-card{ background:white; width:100%; max-width:850px; display:flex; border-radius:24px; overflow:hidden; box-shadow:0 25px 50px rgba(0,0,0,0.35); }
+.sidebar{ width:40%; padding:40px; text-align:center; border-right:1px solid #eee; display:flex; flex-direction:column; align-items:center; justify-content:center; }
 .neu-logo{ width:120px; margin-bottom:20px; }
-
 .content{ width:60%; padding:40px; position: relative; }
 
 .input-group{ margin-bottom:15px; }
+label{ font-size:11px; font-weight:700; color:var(--neu-green); display:block; margin-bottom:5px; }
+input,select{ width:100%; padding:12px; border-radius:10px; border:2px solid #edf2f7; background:#f8fafc; outline: none; }
 
-label{
- font-size:11px;
- font-weight:700;
- color:var(--neu-green);
- display:block;
- margin-bottom:5px;
-}
+#submitBtn{ width:100%; padding:16px; background:var(--neu-green); color:white; border:none; border-radius:14px; font-weight:700; margin-top:10px; cursor: pointer; }
+.google-btn{ width:100%; background:#fff; border:2px solid #edf2f7; padding:12px; border-radius:12px; margin-bottom:20px; display:flex; justify-content:center; align-items:center; gap:10px; font-weight:600; cursor: pointer; }
 
-input,select{
- width:100%;
- padding:12px;
- border-radius:10px;
- border:2px solid #edf2f7;
- background:#f8fafc;
-}
-
-#submitBtn{
- width:100%;
- padding:16px;
- background:var(--neu-green);
- color:white;
- border:none;
- border-radius:14px;
- font-weight:700;
- margin-top:10px;
- cursor: pointer;
-}
-
-.google-btn{
- width:100%;
- background:#fff;
- border:2px solid #edf2f7;
- padding:12px;
- border-radius:12px;
- margin-bottom:20px;
- display:flex;
- justify-content:center;
- align-items:center;
- gap:10px;
- font-weight:600;
- cursor: pointer;
-}
-
-/* ADMIN SWITCH BUTTON STYLE */
-#adminBtn {
-    display: none;
-    width: 100%;
-    background: #4a5568;
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 10px;
-    font-weight: 600;
-    margin-bottom: 15px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-#adminBtn:hover { background: #2d3748; }
-
+#adminBtn { display: none; width: 100%; background: #4a5568; color: white; border: none; padding: 10px; border-radius: 10px; font-weight: 600; margin-bottom: 15px; cursor: pointer; }
 </style>
 </head>
 
 <body>
 
 <div class="main-card">
-<div class="sidebar">
-<img src="neu-logo.png" class="neu-logo" onerror="this.src='https://via.placeholder.com/120?text=NEU'">
-<h2>NEU LIBRARY</h2>
-<p>Visitor Management System</p>
-</div>
+    <div class="sidebar">
+        <img src="neu-logo.png" class="neu-logo" onerror="this.src='https://via.placeholder.com/120?text=NEU'">
+        <h2>NEU LIBRARY</h2>
+        <p>Visitor Management System</p>
+    </div>
 
-<div class="content">
+    <div class="content">
+        <button id="adminBtn" onclick="window.location.href='admin.html'">Go to Admin Dashboard ⚙️</button>
 
-<button id="adminBtn" onclick="window.location.href='admin.html'">Go to Admin Dashboard ⚙️</button>
+        <button id="googleLoginBtn" class="google-btn">
+            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18">
+            <span id="loginText">Sign in with Google</span>
+        </button>
 
-<button id="googleLoginBtn" class="google-btn">
-<img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18">
-Sign in with Google
-</button>
+        <div class="input-group">
+            <label>Full Name</label>
+            <input type="text" id="fullName" placeholder="Enter your full name">
+        </div>
 
-<div class="input-group">
-<label>Full Name</label>
-<input type="text" id="fullName">
-</div>
+        <div class="input-group">
+            <label>I am a:</label>
+            <select id="userType">
+                <option>Student</option>
+                <option>Teacher</option>
+                <option>Staff</option>
+            </select>
+        </div>
 
-<div class="input-group">
-<label>I am a:</label>
-<select id="userType">
-<option>Student</option>
-<option>Teacher</option>
-<option>Staff</option>
-</select>
-</div>
+        <div class="input-group">
+            <label>College</label>
+            <select id="college">
+                <option>CAS</option>
+                <option>CBA</option>
+                <option>SEA</option>
+                <option>CICS</option>
+            </select>
+        </div>
 
-<div class="input-group">
-<label>College</label>
-<select id="college">
-<option>CAS</option>
-<option>CBA</option>
-<option>SEA</option>
-<option>CICS</option>
-</select>
-</div>
+        <div class="input-group">
+            <label>Purpose</label>
+            <select id="reason">
+                <option>Reading</option>
+                <option>Research</option>
+                <option>Computer</option>
+            </select>
+        </div>
 
-<div class="input-group">
-<label>Purpose</label>
-<select id="reason">
-<option>Reading</option>
-<option>Research</option>
-<option>Computer</option>
-</select>
-</div>
-
-<button id="submitBtn">SIGN IN</button>
-
-</div>
+        <button id="submitBtn">SIGN IN</button>
+    </div>
 </div>
 
 <script type="module">
@@ -184,29 +102,25 @@ const provider = new GoogleAuthProvider();
 
 let userEmail="";
 const adminEmail = "jcesperanza@neu.edu.ph";
+const myEmail = "erano.tano@neu.edu.ph";
 
-/* Role-Based Greeting & Switch Logic */
 onAuthStateChanged(auth, user=>{
  if(user){
    userEmail = user.email.toLowerCase();
+   document.getElementById('loginText').innerText = "Logged in: " + userEmail;
 
-   // Requirement: Greet with "Welcome to NEU Library!"
-   Swal.fire({
-       title: 'Welcome to NEU Library!',
-       text: `Signed in as ${userEmail}`,
-       icon: 'success',
-       timer: 2000,
-       showConfirmButton: false
-   });
-
-   // Role-Based Access: Show Admin button if the user is the professor
-   if(userEmail === adminEmail){
-     document.getElementById('adminBtn').style.display = "block";
-   } else {
-     document.getElementById('adminBtn').style.display = "none";
+   // AUTOMATIC REDIRECT LOGIC
+   if(userEmail === adminEmail || userEmail === myEmail){
+     Swal.fire({
+         title: 'Welcome Admin!',
+         text: 'Redirecting to Dashboard...',
+         icon: 'success',
+         timer: 1500,
+         showConfirmButton: false
+     }).then(() => {
+         window.location.href = "admin.html"; // Rekta sa Admin
+     });
    }
-
-   document.getElementById('googleLoginBtn').innerText = "Logged in: " + userEmail;
  }
 });
 
@@ -260,9 +174,7 @@ try{
 }catch(e){
  Swal.fire('Error',e.message,'error');
 }
-
 });
 </script>
-
 </body>
 </html>
