@@ -1,249 +1,194 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEU Library | Visitor Sign-In</title>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEU Library | Visitor Sign-In</title>
 
-    <style>
-        :root{
-            --neu-green:#074a21;
-            --neu-hover:#053618;
-            --bg-gradient:linear-gradient(135deg,#074a21 0%,#021a0b 100%);
-        }
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 
-        *{ margin:0; padding:0; box-sizing:border-box; font-family:'Inter',sans-serif; }
+<style>
+:root{ --neu-green:#074a21; --bg-gradient:linear-gradient(135deg,#074a21 0%,#021a0b 100%); }
+*{ margin:0; padding:0; box-sizing:border-box; font-family:'Inter',sans-serif; }
+body{ background:var(--bg-gradient); min-height:100vh; display:flex; justify-content:center; align-items:center; padding:20px; }
+.main-card{ background:white; width:100%; max-width:850px; display:flex; border-radius:24px; overflow:hidden; box-shadow:0 25px 50px rgba(0,0,0,0.35); }
+.sidebar{ width:40%; padding:40px; text-align:center; border-right:1px solid #eee; display:flex; flex-direction:column; align-items:center; justify-content:center; }
 
-        body{
-            background:var(--bg-gradient);
-            min-height:100vh;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            padding:20px;
-        }
+.neu-logo{
+  width:120px;
+  height:auto;
+  margin-bottom:20px;
+}
 
-        .main-card{
-            background:white;
-            width:100%;
-            max-width:900px;
-            display:flex;
-            border-radius:24px;
-            overflow:hidden;
-            box-shadow:0 25px 50px rgba(0,0,0,0.35);
-        }
-
-        .sidebar{
-            background:#ffffff;
-            width:38%;
-            padding:40px;
-            display:flex;
-            flex-direction:column;
-            align-items:center;
-            justify-content:center;
-            text-align:center;
-            border-right:1px solid #f0f0f0;
-        }
-
-        .neu-logo{ width:110px; margin-bottom:18px; }
-        .sidebar h1{ font-size:1.3rem; color:var(--neu-green); font-weight:800; line-height:1.2; }
-        .sidebar p{ font-size:0.85rem; color:#666; margin-top:8px; }
-
-        .content{ width:62%; padding:40px; }
-        .form-header{ margin-bottom:25px; }
-        .form-header h2{ color:#1a1a1a; font-size:26px; font-weight:800; }
-        .form-header .line{ width:50px; height:5px; background:var(--neu-green); margin-top:6px; border-radius:10px; }
-        .time{ font-size:13px; color:#666; margin-top:6px; }
-
-        .input-group{ margin-bottom:18px; }
-        label{ display:block; font-size:11px; font-weight:700; color:var(--neu-green); text-transform:uppercase; margin-bottom:6px; letter-spacing:0.8px; }
-
-        input,select{
-            width:100%; padding:14px; border-radius:12px; border:2px solid #edf2f7;
-            font-size:15px; outline:none; background:#f8fafc; transition:0.2;
-        }
-
-        input:focus,select:focus{ border-color:var(--neu-green); background:white; box-shadow:0 0 0 3px rgba(7,74,33,0.1); }
-
-        button{
-            width:100%; padding:16px; background:var(--neu-green); color:white;
-            border:none; border-radius:14px; font-size:15px; font-weight:700;
-            cursor:pointer; margin-top:10px; transition:0.25s;
-        }
-
-        button:hover{ background:var(--neu-hover); transform:translateY(-2px); box-shadow:0 10px 15px rgba(7,74,33,0.3); }
-        
-        .google-btn {
-            background: #fff; color: #444; border: 2px solid #edf2f7; margin-bottom: 20px;
-            display: flex; align-items: center; justify-content: center; gap: 10px;
-        }
-        .google-btn:hover { background: #f8fafc; border-color: #ddd; }
-        .google-icon { width: 20px; }
-
-        .footer{ margin-top: 20px; text-align: center; font-size: 11px; color: #a0aec0; }
-
-        @media (max-width:900px){
-            .main-card{ flex-direction:column; max-width:600px; }
-            .sidebar{ width:100%; border-right:none; border-bottom:1px solid #f0f0f0; padding:30px; }
-            .content{ width:100%; padding:30px; }
-        }
-    </style>
+.content{ width:60%; padding:40px; }
+.input-group{ margin-bottom:15px; }
+label{ font-size:11px; font-weight:700; color:var(--neu-green); }
+input, select{ width:100%; padding:12px; border-radius:10px; border:2px solid #edf2f7; background:#f8fafc; }
+button{ cursor:pointer; }
+#submitBtn{ width:100%; padding:16px; background:var(--neu-green); color:white; border:none; border-radius:14px; font-weight:700; margin-top:10px; }
+.google-btn{ width:100%; background:#fff; border:2px solid #edf2f7; padding:12px; border-radius:12px; margin-bottom:20px; display:flex; justify-content:center; align-items:center; gap:10px; font-weight:600; }
+</style>
 </head>
+
 <body>
 
 <div class="main-card">
-    <div class="sidebar">
-        <img src="https://upload.wikimedia.org/wikipedia/en/thumb/0/09/New_Era_University_logo.svg/1200px-New_Era_University_logo.svg.png" class="neu-logo">
-        <h1>NEW ERA<br>UNIVERSITY</h1>
-        <p>University Library System</p>
-    </div>
+<div class="sidebar">
 
-    <div class="content">
-        <div class="form-header">
-            <h2>Visitor Sign-In</h2>
-            <div class="line"></div>
-            <div id="time" class="time"></div>
-        </div>
+<img src="neu-logo.png"
+     class="neu-logo"
+     alt="NEU Logo"
+     onerror="this.src='https://via.placeholder.com/120?text=NEU'">
 
-        <button id="googleLoginBtn" class="google-btn">
-            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="google-icon">
-            Sign in with Google
-        </button>
+<h2>NEU LIBRARY</h2>
+<p>Visitor Management System</p>
 
-        <div class="input-group">
-            <label>Student Number</label>
-            <input type="text" id="studentId" placeholder="Enter Registration Number" maxlength="12">
-        </div>
+</div>
 
-        <div class="input-group">
-            <label>Full Name</label>
-            <input type="text" id="fullName" placeholder="Last Name, First Name">
-        </div>
+<div class="content">
 
-        <div class="input-group">
-            <label>Program / Course</label>
-            <input type="text" id="program" placeholder="Degree Program and Section">
-        </div>
+<button id="googleLoginBtn" class="google-btn">
+<img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18">
+Sign in with Google
+</button>
 
-        <div class="input-group">
-            <label>Purpose of Visit</label>
-            <select id="reason">
-                <option value="" disabled selected>Please select an option...</option>
-                <option value="Reading">Self-Study / Reading</option>
-                <option value="Research">Research & Reference</option>
-                <option value="Use Computer">Computer / Internet Use</option>
-                <option value="Meeting">Group Study Session</option>
-            </select>
-        </div>
+<div class="input-group">
+<label>Full Name</label>
+<input type="text" id="fullName" placeholder="Enter your full name">
+</div>
 
-        <button id="submitBtn">SIGN IN TO LIBRARY</button>
-        <p class="footer">NEU Library Management System © 2026</p>
-    </div>
+<div class="input-group">
+<label>I am a:</label>
+<select id="userType">
+<option value="Student">Student</option>
+<option value="Teacher">Teacher</option>
+<option value="Staff">Staff</option>
+</select>
+</div>
+
+<div class="input-group">
+<label>College</label>
+<select id="college">
+<option value="CAS">CAS</option>
+<option value="CBA">CBA</option>
+<option value="SEA">SEA</option>
+<option value="CICS">CICS</option>
+</select>
+</div>
+
+<div class="input-group">
+<label>Purpose</label>
+<select id="reason">
+<option value="Reading">Reading</option>
+<option value="Research">Research</option>
+<option value="Computer">Computer Use</option>
+</select>
+</div>
+
+<button id="submitBtn">SIGN IN</button>
+
+</div>
 </div>
 
 <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-    import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-    // In-update na natin ito gamit ang tamang config mo
-    const firebaseConfig = {
-        apiKey: "AIzaSyCFBZ7rZ-LyKuy0W0J6VjeT1auqAM7GMFM",
-        authDomain: "neu-library-visitor-log-eb7d8.firebaseapp.com",
-        projectId: "neu-library-visitor-log-eb7d8",
-        storageBucket: "neu-library-visitor-log-eb7d8.firebasestorage.app",
-        messagingSenderId: "168137481697",
-        appId: "1:168137481697:web:184188a3f657b79c2906a0",
-        measurementId: "G-1J342R3THN"
-    };
+const firebaseConfig = {
+  apiKey: "AIzaSyCFBZ7rZ-LyKuy0W0J6VjeT1auqAM7GMFM",
+  authDomain: "neu-library-visitor-log-eb7d8.firebaseapp.com",
+  projectId: "neu-library-visitor-log-eb7d8",
+  storageBucket: "neu-library-visitor-log-eb7d8.firebasestorage.app",
+  messagingSenderId: "168137481697",
+  appId: "1:168137481697:web:184188a3f657b79c2906a0",
+  measurementId: "G-1J342R3THN"
+};
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const auth = getAuth(app);
-    const provider = new GoogleAuthProvider();
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
 
-    let userEmail = "";
+let userEmail = "";
 
-    // Google Sign-In Function
-    document.getElementById('googleLoginBtn').addEventListener('click', async () => {
-        try {
-            const result = await signInWithPopup(auth, provider);
-            userEmail = result.user.email;
-            
-            // Requirement: Check if it's Sir Esperanza's account
-            if (userEmail === "jcesperanza@neu.edu.ph") {
-                const { value: isAdmin } = await Swal.fire({
-                    title: 'Welcome to NEU Library!', // Required greeting
-                    text: "Recognized: Admin Account. Switch to Dashboard?",
-                    icon: 'success',
-                    showCancelButton: true,
-                    confirmButtonText: 'Admin Dashboard',
-                    cancelButtonText: 'Stay as Visitor',
-                    confirmButtonColor: '#074a21'
-                });
+// LOGIN
+document.getElementById('googleLoginBtn').addEventListener('click', async () => {
+try {
+const result = await signInWithPopup(auth, provider);
+userEmail = result.user.email.toLowerCase();
 
-                if (isAdmin) {
-                    window.location.href = "admin.html"; // Redirect sa admin code mo
-                    return;
-                }
-            } else {
-                Swal.fire({ icon: 'success', title: 'Google Verified', text: `Email: ${userEmail}`, timer: 2000 });
-            }
-            
-            document.getElementById('googleLoginBtn').innerText = `Logged in as: ${userEmail}`;
-            document.getElementById('googleLoginBtn').disabled = true;
-        } catch (error) {
-            Swal.fire('Login Failed', "Please check your Firebase configuration and Authorized Domains.", 'error');
-        }
-    });
+if (!userEmail.endsWith("@neu.edu.ph")) {
+Swal.fire('Access Denied', 'Use NEU email only.', 'error');
+userEmail = "";
+return;
+}
 
-    const btn = document.getElementById("submitBtn");
+if (userEmail === "jcesperanza@neu.edu.ph") {
+const res = await Swal.fire({
+title: 'Welcome to NEU Library!',
+text: "Admin detected. Open dashboard?",
+icon: 'success',
+showCancelButton: true,
+confirmButtonText: 'Admin Dashboard',
+cancelButtonText: 'Stay as User'
+});
 
-    btn.addEventListener("click", async () => {
-        const studentId = document.getElementById("studentId").value.trim();
-        const fullName = document.getElementById("fullName").value.trim();
-        const program = document.getElementById("program").value.trim();
-        const reason = document.getElementById("reason").value;
+if (res.isConfirmed) {
+window.location.href = "admin.html";
+return;
+}
+}
 
-        if (!userEmail) {
-            Swal.fire('Google Auth Required', 'Please sign in with your Google account first.', 'warning');
-            return;
-        }
+Swal.fire('Welcome to NEU Library!', `Logged in as ${userEmail}`, 'success');
+document.getElementById('googleLoginBtn').innerText = userEmail;
 
-        if (!studentId || !fullName || !program || !reason) {
-            Swal.fire({ icon: "warning", title: "Incomplete", text: "All fields must be completed.", confirmButtonColor: "#074a21" });
-            return;
-        }
+} catch (e) {
+console.error(e);
+Swal.fire('Login Error', e.message, 'error');
+}
+});
 
-        btn.disabled = true;
-        btn.innerText = "PROCESSING...";
+// SAVE
+document.getElementById("submitBtn").addEventListener("click", async () => {
 
-        try {
-            await addDoc(collection(db, "visitors"), {
-                studentId,
-                email: userEmail,
-                fullName,
-                program,
-                reason,
-                timestamp: serverTimestamp()
-            });
+const fullName = document.getElementById("fullName").value.trim();
+const userType = document.getElementById("userType").value;
+const college = document.getElementById("college").value;
+const reason = document.getElementById("reason").value;
 
-            Swal.fire({ icon: "success", title: "Verified", text: `Welcome, ${fullName}`, confirmButtonColor: "#074a21" });
-            document.querySelectorAll("input").forEach(i => i.value = "");
-            document.getElementById("reason").selectedIndex = 0;
-        } catch (e) {
-            Swal.fire({ icon: "error", title: "System Error", text: "Check your database connection." });
-        } finally {
-            btn.disabled = false;
-            btn.innerText = "SIGN IN TO LIBRARY";
-        }
-    });
+if (!userEmail) {
+Swal.fire('Login Required', 'Sign in first.', 'warning');
+return;
+}
 
-    setInterval(() => {
-        document.getElementById("time").innerText = new Date().toLocaleString();
-    }, 1000);
+if (!fullName) {
+Swal.fire('Missing Field', 'Enter your name.', 'warning');
+return;
+}
+
+try {
+await addDoc(collection(db, "visitors"), {
+email: userEmail,
+fullName,
+userType,
+college,
+reason,
+isEmployee: userType !== "Student",
+timestamp: serverTimestamp()
+});
+
+Swal.fire('Success', 'Visit recorded!', 'success');
+document.getElementById("fullName").value = "";
+
+} catch (e) {
+console.error(e);
+Swal.fire('Database Error', e.message, 'error');
+}
+
+});
 </script>
+
 </body>
 </html>
