@@ -11,23 +11,102 @@
 <style>
 :root{ --neu-green:#074a21; --bg-gradient:linear-gradient(135deg,#074a21 0%,#021a0b 100%); }
 *{ margin:0; padding:0; box-sizing:border-box; font-family:'Inter',sans-serif; }
-body{ background:var(--bg-gradient); min-height:100vh; display:flex; justify-content:center; align-items:center; padding:20px; }
-.main-card{ background:white; width:100%; max-width:850px; display:flex; border-radius:24px; overflow:hidden; box-shadow:0 25px 50px rgba(0,0,0,0.35); }
-.sidebar{ width:40%; padding:40px; text-align:center; border-right:1px solid #eee; display:flex; flex-direction:column; align-items:center; justify-content:center; }
 
-.neu-logo{
-  width:120px;
-  height:auto;
-  margin-bottom:20px;
+body{
+ background:var(--bg-gradient);
+ min-height:100vh;
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ padding:20px;
 }
 
-.content{ width:60%; padding:40px; }
+.main-card{
+ background:white;
+ width:100%;
+ max-width:850px;
+ display:flex;
+ border-radius:24px;
+ overflow:hidden;
+ box-shadow:0 25px 50px rgba(0,0,0,0.35);
+}
+
+.sidebar{
+ width:40%;
+ padding:40px;
+ text-align:center;
+ border-right:1px solid #eee;
+ display:flex;
+ flex-direction:column;
+ align-items:center;
+ justify-content:center;
+}
+
+.neu-logo{ width:120px; margin-bottom:20px; }
+
+.content{ width:60%; padding:40px; position: relative; }
+
 .input-group{ margin-bottom:15px; }
-label{ font-size:11px; font-weight:700; color:var(--neu-green); }
-input, select{ width:100%; padding:12px; border-radius:10px; border:2px solid #edf2f7; background:#f8fafc; }
-button{ cursor:pointer; }
-#submitBtn{ width:100%; padding:16px; background:var(--neu-green); color:white; border:none; border-radius:14px; font-weight:700; margin-top:10px; }
-.google-btn{ width:100%; background:#fff; border:2px solid #edf2f7; padding:12px; border-radius:12px; margin-bottom:20px; display:flex; justify-content:center; align-items:center; gap:10px; font-weight:600; }
+
+label{
+ font-size:11px;
+ font-weight:700;
+ color:var(--neu-green);
+ display:block;
+ margin-bottom:5px;
+}
+
+input,select{
+ width:100%;
+ padding:12px;
+ border-radius:10px;
+ border:2px solid #edf2f7;
+ background:#f8fafc;
+}
+
+#submitBtn{
+ width:100%;
+ padding:16px;
+ background:var(--neu-green);
+ color:white;
+ border:none;
+ border-radius:14px;
+ font-weight:700;
+ margin-top:10px;
+ cursor: pointer;
+}
+
+.google-btn{
+ width:100%;
+ background:#fff;
+ border:2px solid #edf2f7;
+ padding:12px;
+ border-radius:12px;
+ margin-bottom:20px;
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ gap:10px;
+ font-weight:600;
+ cursor: pointer;
+}
+
+/* ADMIN SWITCH BUTTON STYLE */
+#adminBtn {
+    display: none;
+    width: 100%;
+    background: #4a5568;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+#adminBtn:hover { background: #2d3748; }
+
 </style>
 </head>
 
@@ -35,18 +114,14 @@ button{ cursor:pointer; }
 
 <div class="main-card">
 <div class="sidebar">
-
-<img src="neu-logo.png"
-     class="neu-logo"
-     alt="NEU Logo"
-     onerror="this.src='https://via.placeholder.com/120?text=NEU'">
-
+<img src="neu-logo.png" class="neu-logo" onerror="this.src='https://via.placeholder.com/120?text=NEU'">
 <h2>NEU LIBRARY</h2>
 <p>Visitor Management System</p>
-
 </div>
 
 <div class="content">
+
+<button id="adminBtn" onclick="window.location.href='admin.html'">Go to Admin Dashboard ⚙️</button>
 
 <button id="googleLoginBtn" class="google-btn">
 <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18">
@@ -55,34 +130,34 @@ Sign in with Google
 
 <div class="input-group">
 <label>Full Name</label>
-<input type="text" id="fullName" placeholder="Enter your full name">
+<input type="text" id="fullName">
 </div>
 
 <div class="input-group">
 <label>I am a:</label>
 <select id="userType">
-<option value="Student">Student</option>
-<option value="Teacher">Teacher</option>
-<option value="Staff">Staff</option>
+<option>Student</option>
+<option>Teacher</option>
+<option>Staff</option>
 </select>
 </div>
 
 <div class="input-group">
 <label>College</label>
 <select id="college">
-<option value="CAS">CAS</option>
-<option value="CBA">CBA</option>
-<option value="SEA">SEA</option>
-<option value="CICS">CICS</option>
+<option>CAS</option>
+<option>CBA</option>
+<option>SEA</option>
+<option>CICS</option>
 </select>
 </div>
 
 <div class="input-group">
 <label>Purpose</label>
 <select id="reason">
-<option value="Reading">Reading</option>
-<option value="Research">Research</option>
-<option value="Computer">Computer Use</option>
+<option>Reading</option>
+<option>Research</option>
+<option>Computer</option>
 </select>
 </div>
 
@@ -94,16 +169,12 @@ Sign in with Google
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCFBZ7rZ-LyKuy0W0J6VjeT1auqAM7GMFM",
-  authDomain: "neu-library-visitor-log-eb7d8.firebaseapp.com",
-  projectId: "neu-library-visitor-log-eb7d8",
-  storageBucket: "neu-library-visitor-log-eb7d8.firebasestorage.app",
-  messagingSenderId: "168137481697",
-  appId: "1:168137481697:web:184188a3f657b79c2906a0",
-  measurementId: "G-1J342R3THN"
+ apiKey:"AIzaSyCFBZ7rZ-LyKuy0W0J6VjeT1auqAM7GMFM",
+ authDomain:"neu-library-visitor-log-eb7d8.firebaseapp.com",
+ projectId:"neu-library-visitor-log-eb7d8"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -111,80 +182,83 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
-let userEmail = "";
+let userEmail="";
+const adminEmail = "jcesperanza@neu.edu.ph";
 
-// LOGIN
-document.getElementById('googleLoginBtn').addEventListener('click', async () => {
-try {
-const result = await signInWithPopup(auth, provider);
-userEmail = result.user.email.toLowerCase();
+/* Role-Based Greeting & Switch Logic */
+onAuthStateChanged(auth, user=>{
+ if(user){
+   userEmail = user.email.toLowerCase();
 
-if (!userEmail.endsWith("@neu.edu.ph")) {
-Swal.fire('Access Denied', 'Use NEU email only.', 'error');
-userEmail = "";
-return;
-}
+   // Requirement: Greet with "Welcome to NEU Library!"
+   Swal.fire({
+       title: 'Welcome to NEU Library!',
+       text: `Signed in as ${userEmail}`,
+       icon: 'success',
+       timer: 2000,
+       showConfirmButton: false
+   });
 
-if (userEmail === "jcesperanza@neu.edu.ph") {
-const res = await Swal.fire({
-title: 'Welcome to NEU Library!',
-text: "Admin detected. Open dashboard?",
-icon: 'success',
-showCancelButton: true,
-confirmButtonText: 'Admin Dashboard',
-cancelButtonText: 'Stay as User'
+   // Role-Based Access: Show Admin button if the user is the professor
+   if(userEmail === adminEmail){
+     document.getElementById('adminBtn').style.display = "block";
+   } else {
+     document.getElementById('adminBtn').style.display = "none";
+   }
+
+   document.getElementById('googleLoginBtn').innerText = "Logged in: " + userEmail;
+ }
 });
 
-if (res.isConfirmed) {
-window.location.href = "admin.html";
-return;
-}
-}
+/* LOGIN BUTTON */
+document.getElementById('googleLoginBtn').addEventListener('click', async ()=>{
+ try{
+   const result = await signInWithPopup(auth, provider);
+   let email = result.user.email.toLowerCase();
 
-Swal.fire('Welcome to NEU Library!', `Logged in as ${userEmail}`, 'success');
-document.getElementById('googleLoginBtn').innerText = userEmail;
-
-} catch (e) {
-console.error(e);
-Swal.fire('Login Error', e.message, 'error');
-}
+   if(!email.endsWith("@neu.edu.ph")){
+     await signOut(auth);
+     Swal.fire('Access Denied','Use NEU email only.','error');
+     return;
+   }
+ }catch(e){
+   Swal.fire('Error',e.message,'error');
+ }
 });
 
-// SAVE
-document.getElementById("submitBtn").addEventListener("click", async () => {
+/* SAVE LOG */
+document.getElementById("submitBtn").addEventListener("click", async ()=>{
+const fullName=document.getElementById("fullName").value.trim();
+const userType=document.getElementById("userType").value;
+const college=document.getElementById("college").value;
+const reason=document.getElementById("reason").value;
 
-const fullName = document.getElementById("fullName").value.trim();
-const userType = document.getElementById("userType").value;
-const college = document.getElementById("college").value;
-const reason = document.getElementById("reason").value;
-
-if (!userEmail) {
-Swal.fire('Login Required', 'Sign in first.', 'warning');
-return;
+if(!userEmail){
+ Swal.fire('Login Required','Please sign in with Google first','warning');
+ return;
 }
 
-if (!fullName) {
-Swal.fire('Missing Field', 'Enter your name.', 'warning');
-return;
+if(!fullName){
+ Swal.fire('Missing Field','Please enter your name','warning');
+ return;
 }
 
-try {
-await addDoc(collection(db, "visitors"), {
-email: userEmail,
-fullName,
-userType,
-college,
-reason,
-isEmployee: userType !== "Student",
-timestamp: serverTimestamp()
-});
+try{
+ await addDoc(collection(db,"visitors"),{
+ email:userEmail,
+ fullName,
+ userType,
+ college,
+ reason,
+ isEmployee:userType!=="Student",
+ timestamp:serverTimestamp()
+ });
 
-Swal.fire('Success', 'Visit recorded!', 'success');
-document.getElementById("fullName").value = "";
+ Swal.fire('Success','Visitor log recorded!','success');
+ document.getElementById("fullName").value="";
 
-} catch (e) {
-console.error(e);
-Swal.fire('Database Error', e.message, 'error');
+}catch(e){
+ Swal.fire('Error',e.message,'error');
 }
 
 });
