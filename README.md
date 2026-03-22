@@ -8,12 +8,17 @@ This system allows users to sign in using their institutional email and records 
 ## 🚀 Features
 
 ### 👤 User Side
--Google Sign-In: Restricted to institutional @neu.edu.ph emails only.
--Smart ID Scanner: Dedicated scanning field for RFID or QR code IDs with auto-focus.
--Interactive UI: High-tech laser line animation and success pulse effects during scanning.
--Dynamic Selection: * User Type: Student, Teacher, Staff
--College: Filtered by academic department
--Purpose: Reading, Research, Computer Use
+Google Sign-In: Restricted to institutional @neu.edu.ph emails only.
+
+Smart ID Scanner: Dedicated scanning field for RFID or QR code IDs with auto-focus.
+
+Interactive UI: High-tech laser line animation and success pulse effects during scanning.
+
+Dynamic Selection: * User Type: Student, Teacher, Staff
+
+College: Filtered by academic department
+
+Purpose: Reading, Research, Computer Use
 ---
 
 ### 🛠️ Admin Dashboard
