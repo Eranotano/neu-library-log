@@ -1,4 +1,4 @@
-# 📚 NEU Library Visitor Log System
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/271106a7-ba73-4eb6-9d18-1c89fb8971a3" /># 📚 NEU Library Visitor Log System
 
 A web-based visitor logging system designed for **New Era University (NEU) Library**.  
 This system allows users to sign in using their institutional email and records their visit in a database.
@@ -47,7 +47,9 @@ This system allows users to sign in using their institutional email and records 
 ---
 
 ## 📸 Screenshots
-<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/264aaef1-1e0f-40b6-983c-8b7814a212e6" />
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/e3a133c5-ff71-4dc1-8127-0b2f4d7c5004" />
+
+
 
 ### 🔐 Login Page
 ### 🛠️ Admin Dashboard
