@@ -52,8 +52,7 @@ This system allows users to sign in using their institutional email and records 
 
 ### 🔐 Login Page
 ### 🛠️ Admin Dashboard
-![Admin](<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/911b7959-efbc-450d-9337-365896ee23fa" />
-)
+![Admin](https://github.com/Eranotano/neu-library-log.git)
 
 ---
 
