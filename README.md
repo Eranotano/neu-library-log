@@ -51,12 +51,12 @@ This system allows users to sign in using their institutional email and records 
 <img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/264aaef1-1e0f-40b6-983c-8b7814a212e6" />
 
 ### 🔐 Login Page
-https://eranotano.github.io/neu-library-log/
+
 
 ---
 
 ## 🌐 Live Demo
-👉 (Add your GitHub Pages link here)
+https://eranotano.github.io/neu-library-log/
 
 ---
 
