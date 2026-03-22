@@ -9,56 +9,203 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 
 <style>
-:root{ --neu-green:#074a21; --neu-red:#ef4444; --bg-gradient:linear-gradient(135deg,#074a21 0%,#021a0b 100%); }
-*{ margin:0; padding:0; box-sizing:border-box; font-family:'Inter',sans-serif; }
-
-body{ background:var(--bg-gradient); min-height:100vh; padding:20px; }
-
-/* LOADING SCREEN */
-#loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 9999; }
-.spinner { width: 50px; height: 50px; border: 5px solid #f3f3f3; border-top: 5px solid var(--neu-green); border-radius: 50%; animation: spin 1s linear infinite; }
-@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-/* MAIN LAYOUT */
-.main-card{ background:white; max-width:1200px; margin:auto; border-radius:24px; padding:30px; box-shadow:0 25px 50px rgba(0,0,0,0.35); display: none; }
-.header-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
-.logo-section { display: flex; align-items: center; gap: 15px; }
-.neu-logo { width: 60px; height: 60px; object-fit: contain; }
-h2{ color:var(--neu-green); font-weight: 800; }
-
-/* STATS CARDS - FIXED FOR ALIGNMENT */
-.stats{ 
-    display:grid; 
-    grid-template-columns: repeat(6, 1fr); /* Ginawang 6 para pantay lahat */
-    gap:15px; 
-    margin-bottom:25px; 
+:root{
+ --neu-green:#074a21;
+ --neu-red:#ef4444;
 }
-.card{ background:#f8fafc; padding:20px; border-radius:16px; text-align:center; border: 1px solid #e2e8f0; transition: 0.2s; display: flex; flex-direction: column; justify-content: center; }
-.card:hover { transform: translateY(-5px); }
-.card span { display: block; font-size: 24px; font-weight: 800; color: var(--neu-green); }
-.card label { font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; margin-bottom: 5px; }
+
+*{
+ margin:0;
+ padding:0;
+ box-sizing:border-box;
+ font-family:'Inter',sans-serif;
+}
+
+body{
+ background: linear-gradient(135deg,#074a21,#021a0b);
+ min-height:100vh;
+ padding:20px;
+}
+
+/* LOADER */
+#loader{
+ position:fixed;
+ top:0;
+ left:0;
+ width:100%;
+ height:100%;
+ background:white;
+ display:flex;
+ flex-direction:column;
+ justify-content:center;
+ align-items:center;
+ z-index:9999;
+}
+
+.spinner{
+ width:50px;
+ height:50px;
+ border:5px solid #eee;
+ border-top:5px solid var(--neu-green);
+ border-radius:50%;
+ animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+ 0%{transform:rotate(0deg);}
+ 100%{transform:rotate(360deg);}
+}
+
+/* MAIN CARD */
+.main-card{
+ max-width:1200px;
+ margin:auto;
+ padding:30px;
+ border-radius:25px;
+ backdrop-filter: blur(20px);
+ background: rgba(255,255,255,0.95);
+ box-shadow:0 25px 60px rgba(0,0,0,0.4);
+ display:none;
+}
+
+/* HEADER */
+.header-flex{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ margin-bottom:25px;
+}
+
+.logo-section{
+ display:flex;
+ align-items:center;
+ gap:15px;
+}
+
+.neu-logo{
+ width:60px;
+}
+
+h2{
+ color:var(--neu-green);
+ font-weight:800;
+}
+
+.logout-btn{
+ background:var(--neu-red);
+ color:white;
+ border:none;
+ padding:10px 15px;
+ border-radius:10px;
+ cursor:pointer;
+}
+
+/* STATS */
+.stats{
+ display:grid;
+ grid-template-columns: repeat(6,1fr);
+ gap:15px;
+ margin-bottom:25px;
+}
+
+.card{
+ background:white;
+ padding:20px;
+ border-radius:15px;
+ text-align:center;
+ box-shadow:0 10px 25px rgba(0,0,0,0.1);
+ transition:0.2s;
+}
+
+.card:hover{
+ transform:translateY(-5px) scale(1.03);
+}
+
+.card span{
+ font-size:24px;
+ font-weight:800;
+ color:var(--neu-green);
+}
+
+.card label{
+ font-size:11px;
+ color:#666;
+}
 
 /* FILTERS */
-.controls{ background: #f1f5f9; padding: 20px; border-radius: 15px; display:flex; flex-wrap:wrap; gap:10px; margin-bottom:20px; align-items: flex-end; }
-.control-group { display: flex; flex-direction: column; gap: 5px; }
-.control-group label { font-size: 10px; font-weight: 700; color: #475569; margin-left: 5px; }
-input, select{ padding:10px; border-radius:10px; border:1px solid #cbd5e1; outline: none; font-size: 13px; }
+.controls{
+ background:#f1f5f9;
+ padding:20px;
+ border-radius:15px;
+ display:flex;
+ flex-wrap:wrap;
+ gap:10px;
+ margin-bottom:20px;
+}
 
-button.filter-btn{ background:var(--neu-green); color:white; border:none; padding:10px 20px; border-radius:10px; cursor:pointer; font-weight: 600; transition: 0.2s; }
-button.filter-btn:hover { opacity: 0.9; }
-button.logout-btn { background: var(--neu-red); color: white; border: none; padding: 8px 15px; border-radius: 8px; cursor: pointer; font-weight: 600; }
+.control-group{
+ display:flex;
+ flex-direction:column;
+}
 
-/* TABLE & ACTIONS */
-.table-container { overflow-x: auto; }
-table{ width:100%; border-collapse:collapse; margin-top: 10px; }
-th{ background: #f8fafc; color: var(--neu-green); padding: 15px; text-align: left; border-bottom: 2px solid #e2e8f0; font-size: 13px; }
-td{ padding:15px; border-bottom:1px solid #f1f5f9; font-size: 14px; }
-.btn-delete { background: #fee2e2; color: #dc2626; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: 700; }
-.btn-delete:hover { background: #f87171; color: white; }
+input,select{
+ padding:10px;
+ border-radius:10px;
+ border:1px solid #ccc;
+}
 
-/* Responsive adjustments */
-@media (max-width: 1024px) { .stats { grid-template-columns: repeat(3, 1fr); } }
-@media (max-width: 600px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+.filter-btn{
+ background:var(--neu-green);
+ color:white;
+ border:none;
+ padding:10px 20px;
+ border-radius:10px;
+ cursor:pointer;
+}
+
+/* TABLE */
+.table-container{
+ overflow-x:auto;
+}
+
+table{
+ width:100%;
+ border-collapse:collapse;
+}
+
+th{
+ background:var(--neu-green);
+ color:white;
+ padding:12px;
+}
+
+td{
+ padding:12px;
+ background:#f9fafb;
+ border-bottom:1px solid #eee;
+}
+
+.btn-delete{
+ background:#fee2e2;
+ color:#dc2626;
+ border:none;
+ padding:6px 12px;
+ border-radius:6px;
+ cursor:pointer;
+}
+
+.btn-delete:hover{
+ background:#f87171;
+ color:white;
+}
+
+/* RESPONSIVE */
+@media(max-width:1000px){
+ .stats{grid-template-columns: repeat(3,1fr);}
+}
+@media(max-width:600px){
+ .stats{grid-template-columns: repeat(2,1fr);}
+}
 </style>
 </head>
 
@@ -66,58 +213,82 @@ td{ padding:15px; border-bottom:1px solid #f1f5f9; font-size: 14px; }
 
 <div id="loader">
     <div class="spinner"></div>
-    <p style="margin-top:15px; font-weight:600; color:#074a21;">Verifying Admin Access...</p>
+    <p style="margin-top:10px;color:#074a21;">Checking access...</p>
 </div>
 
 <div class="main-card" id="adminContent">
+
     <div class="header-flex">
         <div class="logo-section">
-            <img src="neu-logo.png" class="neu-logo" alt="NEU Logo" onerror="this.src='https://via.placeholder.com/120?text=NEU'">
+            <img src="neu-logo.png" class="neu-logo">
             <div>
                 <h2>Admin Dashboard</h2>
-                <p id="adminWelcome" style="font-size: 11px; color: #666;"></p>
+                <p id="adminWelcome"></p>
             </div>
         </div>
+
         <button class="logout-btn" onclick="logout()">Logout</button>
     </div>
 
+    <!-- STATS -->
     <div class="stats">
         <div class="card"><label>Today</label><span id="todayCount">0</span></div>
         <div class="card"><label>Reading</label><span id="readingCount">0</span></div>
         <div class="card"><label>Research</label><span id="researchCount">0</span></div>
         <div class="card"><label>Computer</label><span id="computerCount">0</span></div>
         <div class="card"><label>Employees</label><span id="employeeCount">0</span></div>
-        <div class="card" style="border-bottom: 3px solid var(--neu-green);"><label>Total Records</label><span id="totalCount">0</span></div>
+        <div class="card"><label>Total</label><span id="totalCount">0</span></div>
     </div>
 
+    <!-- FILTER -->
     <div class="controls">
-        <div class="control-group"><label>Search Name</label><input id="searchInput" placeholder="Search..."></div>
+        <div class="control-group">
+            <label>Search</label>
+            <input id="searchInput">
+        </div>
+
         <div class="control-group">
             <label>Purpose</label>
             <select id="filterReason">
-                <option value="">All Purpose</option>
-                <option>Reading</option><option>Research</option><option>Computer</option>
+                <option value="">All</option>
+                <option>Reading</option>
+                <option>Research</option>
+                <option>Computer</option>
             </select>
         </div>
+
         <div class="control-group">
             <label>College</label>
             <select id="filterCollege">
-                <option value="">All Colleges</option>
-                <option>CAS</option><option>CBA</option><option>SEA</option><option>CICS</option>
+                <option value="">All</option>
+                <option>CAS</option>
+                <option>CBA</option>
+                <option>SEA</option>
+                <option>CICS</option>
             </select>
         </div>
-        <div class="control-group"><label>Start Date</label><input type="date" id="startDate"></div>
-        <div class="control-group"><label>End Date</label><input type="date" id="endDate"></div>
-        <button class="filter-btn" onclick="applyFilters()">Apply Filters</button>
+
+        <div class="control-group">
+            <label>Start</label>
+            <input type="date" id="startDate">
+        </div>
+
+        <div class="control-group">
+            <label>End</label>
+            <input type="date" id="endDate">
+        </div>
+
+        <button class="filter-btn" onclick="applyFilters()">Apply</button>
     </div>
 
+    <!-- TABLE -->
     <div class="table-container">
         <table>
             <thead>
                 <tr>
-                    <th>Date & Time</th>
-                    <th>Full Name</th>
-                    <th>User Type</th>
+                    <th>Date</th>
+                    <th>Name</th>
+                    <th>Type</th>
                     <th>College</th>
                     <th>Purpose</th>
                     <th>Action</th>
@@ -126,6 +297,7 @@ td{ padding:15px; border-bottom:1px solid #f1f5f9; font-size: 14px; }
             <tbody id="tableBody"></tbody>
         </table>
     </div>
+
 </div>
 
 <script type="module">
@@ -143,85 +315,72 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
-let allLogs = [];
-const adminEmail = "jcesperanza@neu.edu.ph";
-const myEmail = "erano.tano@neu.edu.ph";
+let allLogs=[];
+const adminEmail="jcesperanza@neu.edu.ph";
+const myEmail="erano.tano@neu.edu.ph";
 
-// Security Gate
-onAuthStateChanged(auth, user=>{
- if(user && (user.email === adminEmail || user.email === myEmail)){
-   document.getElementById('loader').style.display = "none";
-   document.getElementById('adminContent').style.display = "block";
-   document.getElementById('adminWelcome').innerText = "Active: " + user.email;
- } else {
-   window.location.href = "index.html";
+onAuthStateChanged(auth,user=>{
+ if(user && (user.email===adminEmail || user.email===myEmail)){
+   loader.style.display="none";
+   adminContent.style.display="block";
+   adminWelcome.innerText="Logged in: "+user.email;
+ }else{
+   window.location.href="index.html";
  }
 });
 
-// Fetch Data
-onSnapshot(query(collection(db,"visitors"), orderBy("timestamp","desc")), snap=>{
+onSnapshot(query(collection(db,"visitors"),orderBy("timestamp","desc")),snap=>{
  allLogs=[];
- snap.forEach(d=>allLogs.push({ id: d.id, ...d.data() }));
- applyFilters(); 
+ snap.forEach(d=>allLogs.push({id:d.id,...d.data()}));
+ applyFilters();
 });
 
-// Delete Logic
-window.deleteRecord = async (id) => {
-    const confirm = await Swal.fire({
-        title: 'Delete this record?',
-        text: "This action cannot be undone.",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#074a21',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete'
-    });
-
-    if (confirm.isConfirmed) {
-        try {
-            await deleteDoc(doc(db, "visitors", id));
-            Swal.fire('Deleted!', 'Record removed.', 'success');
-        } catch (e) {
-            Swal.fire('Error', 'Failed to delete.', 'error');
-        }
-    }
+window.deleteRecord=async(id)=>{
+ if(confirm("Delete record?")){
+   await deleteDoc(doc(db,"visitors",id));
+ }
 };
 
 function render(data){
- tableBody.innerHTML = data.length ? data.map(v=>`
+ tableBody.innerHTML=data.map(v=>`
  <tr>
-    <td>${v.timestamp?.toDate().toLocaleString() || "Syncing..."}</td>
-    <td><strong>${v.fullName}</strong></td>
-    <td>${v.userType}</td>
-    <td>${v.college}</td>
-    <td>${v.reason}</td>
-    <td><button class="btn-delete" onclick="deleteRecord('${v.id}')">Delete</button></td>
- </tr>`).join("") : `<tr><td colspan="6" style="text-align:center; padding:30px; color:#999;">No records found.</td></tr>`;
+  <td>${v.timestamp?.toDate().toLocaleString()||"..."}</td>
+  <td>${v.fullName}</td>
+  <td>${v.userType}</td>
+  <td>${v.college}</td>
+  <td>${v.reason}</td>
+  <td><button class="btn-delete" onclick="deleteRecord('${v.id}')">Delete</button></td>
+ </tr>`).join("");
 }
 
 function updateStats(data){
- const todayStr = new Date().toLocaleDateString();
- todayCount.innerText = allLogs.filter(v => v.timestamp?.toDate().toLocaleDateString() === todayStr).length;
- totalCount.innerText = data.length;
- readingCount.innerText = data.filter(v => v.reason === "Reading").length;
- researchCount.innerText = data.filter(v => v.reason === "Research").length;
- computerCount.innerText = data.filter(v => v.reason?.includes("Computer")).length;
- employeeCount.innerText = data.filter(v => v.isEmployee === true).length;
+ totalCount.innerText=data.length;
+ readingCount.innerText=data.filter(v=>v.reason==="Reading").length;
+ researchCount.innerText=data.filter(v=>v.reason==="Research").length;
+ computerCount.innerText=data.filter(v=>v.reason==="Computer").length;
+ employeeCount.innerText=data.filter(v=>v.isEmployee).length;
 }
 
-window.applyFilters = () => {
- const s = searchInput.value.toLowerCase(), r = filterReason.value, c = filterCollege.value, start = startDate.value, end = endDate.value;
- const filtered = allLogs.filter(v => {
-  if (!v.timestamp) return false;
-  const d = v.timestamp.toDate();
-  let dateMatch = (!start || d >= new Date(start)) && (!end || d <= new Date(end + "T23:59:59"));
-  return dateMatch && (!s || v.fullName.toLowerCase().includes(s)) && (!r || v.reason === r) && (!c || v.college === c);
- });
+window.applyFilters=()=>{
+ const s=searchInput.value.toLowerCase();
+ const r=filterReason.value;
+ const c=filterCollege.value;
+
+ const filtered=allLogs.filter(v=>
+ (!s||v.fullName.toLowerCase().includes(s)) &&
+ (!r||v.reason===r) &&
+ (!c||v.college===c)
+ );
+
  render(filtered);
  updateStats(filtered);
 };
 
-window.logout = async ()=>{ await signOut(auth); window.location.href="index.html"; };
+window.logout=async()=>{
+ await signOut(auth);
+ window.location.href="index.html";
+};
 </script>
+
 </body>
 </html>
