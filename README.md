@@ -70,7 +70,7 @@ https://eranotano.github.io/neu-library-log/
 ---
 
 ## 👨‍💻 Developer
-- Your Name Here
+- Erano P. Tano Jr.
 
 ---
 
