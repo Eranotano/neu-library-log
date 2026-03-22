@@ -58,7 +58,7 @@ body{
 
 /* MAIN CARD */
 .main-card{
- max-width:1200px;
+ max-width:1250px;
  margin:auto;
  padding:30px;
  border-radius:25px;
@@ -91,6 +91,11 @@ h2{
  font-weight:800;
 }
 
+.btn-group {
+    display: flex;
+    gap: 10px;
+}
+
 .logout-btn{
  background:var(--neu-red);
  color:white;
@@ -98,6 +103,17 @@ h2{
  padding:10px 15px;
  border-radius:10px;
  cursor:pointer;
+ font-weight: 600;
+}
+
+.export-btn {
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
 }
 
 /* STATS */
@@ -115,6 +131,7 @@ h2{
  text-align:center;
  box-shadow:0 10px 25px rgba(0,0,0,0.1);
  transition:0.2s;
+ border-bottom: 4px solid var(--neu-green);
 }
 
 .card:hover{
@@ -130,6 +147,9 @@ h2{
 .card label{
  font-size:11px;
  color:#666;
+ text-transform: uppercase;
+ letter-spacing: 1px;
+ font-weight: 600;
 }
 
 /* FILTERS */
@@ -141,48 +161,83 @@ h2{
  flex-wrap:wrap;
  gap:10px;
  margin-bottom:20px;
+ align-items: flex-end;
 }
 
 .control-group{
  display:flex;
  flex-direction:column;
+ flex: 1;
+ min-width: 150px;
+}
+
+.control-group label {
+    font-size: 11px;
+    font-weight: 700;
+    margin-bottom: 5px;
+    color: #475569;
 }
 
 input,select{
  padding:10px;
  border-radius:10px;
- border:1px solid #ccc;
+ border: 1px solid #cbd5e1;
+ outline: none;
+}
+
+input:focus, select:focus {
+    border-color: var(--neu-green);
 }
 
 .filter-btn{
  background:var(--neu-green);
  color:white;
  border:none;
- padding:10px 20px;
+ padding:11px 25px;
  border-radius:10px;
  cursor:pointer;
+ font-weight: 600;
 }
 
 /* TABLE */
 .table-container{
  overflow-x:auto;
+ border-radius: 15px;
+ box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
 }
 
 table{
  width:100%;
  border-collapse:collapse;
+ background: white;
 }
 
 th{
  background:var(--neu-green);
  color:white;
- padding:12px;
+ padding:15px;
+ text-align: left;
+ font-size: 13px;
 }
 
 td{
- padding:12px;
- background:#f9fafb;
- border-bottom:1px solid #eee;
+ padding:12px 15px;
+ border-bottom:1px solid #f1f5f9;
+ font-size: 14px;
+ color: #334155;
+}
+
+tr:hover td {
+    background: #f8fafc;
+}
+
+.badge-scan {
+    background: #dcfce7;
+    color: #166534;
+    padding: 2px 8px;
+    border-radius: 99px;
+    font-size: 11px;
+    font-weight: 600;
 }
 
 .btn-delete{
@@ -192,6 +247,8 @@ td{
  padding:6px 12px;
  border-radius:6px;
  cursor:pointer;
+ font-size: 12px;
+ transition: 0.2s;
 }
 
 .btn-delete:hover{
@@ -205,6 +262,7 @@ td{
 }
 @media(max-width:600px){
  .stats{grid-template-columns: repeat(2,1fr);}
+ .controls { flex-direction: column; align-items: stretch; }
 }
 </style>
 </head>
@@ -213,54 +271,55 @@ td{
 
 <div id="loader">
     <div class="spinner"></div>
-    <p style="margin-top:10px;color:#074a21;">Checking access...</p>
+    <p style="margin-top:10px;color:#074a21;font-weight:600;">Verifying Admin Access...</p>
 </div>
 
 <div class="main-card" id="adminContent">
 
     <div class="header-flex">
         <div class="logo-section">
-            <img src="neu-logo.png" class="neu-logo">
+            <img src="neu-logo.png" class="neu-logo" onerror="this.src='https://via.placeholder.com/60?text=NEU'">
             <div>
                 <h2>Admin Dashboard</h2>
-                <p id="adminWelcome"></p>
+                <p id="adminWelcome" style="font-size: 12px; color: #64748b;"></p>
             </div>
         </div>
 
-        <button class="logout-btn" onclick="logout()">Logout</button>
+        <div class="btn-group">
+            <button class="export-btn" onclick="exportData()">📥 Export CSV</button>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
     </div>
 
-    <!-- STATS -->
     <div class="stats">
         <div class="card"><label>Today</label><span id="todayCount">0</span></div>
         <div class="card"><label>Reading</label><span id="readingCount">0</span></div>
         <div class="card"><label>Research</label><span id="researchCount">0</span></div>
         <div class="card"><label>Computer</label><span id="computerCount">0</span></div>
         <div class="card"><label>Employees</label><span id="employeeCount">0</span></div>
-        <div class="card"><label>Total</label><span id="totalCount">0</span></div>
+        <div class="card"><label>Total All-Time</label><span id="totalCount">0</span></div>
     </div>
 
-    <!-- FILTER -->
     <div class="controls">
         <div class="control-group">
-            <label>Search</label>
-            <input id="searchInput">
+            <label>Search Name</label>
+            <input id="searchInput" placeholder="Search visitor...">
         </div>
 
         <div class="control-group">
             <label>Purpose</label>
             <select id="filterReason">
-                <option value="">All</option>
+                <option value="">All Purposes</option>
                 <option>Reading</option>
                 <option>Research</option>
-                <option>Computer</option>
+                <option>Computer Use</option>
             </select>
         </div>
 
         <div class="control-group">
             <label>College</label>
             <select id="filterCollege">
-                <option value="">All</option>
+                <option value="">All Colleges</option>
                 <option>CAS</option>
                 <option>CBA</option>
                 <option>SEA</option>
@@ -268,27 +327,17 @@ td{
             </select>
         </div>
 
-        <div class="control-group">
-            <label>Start</label>
-            <input type="date" id="startDate">
-        </div>
-
-        <div class="control-group">
-            <label>End</label>
-            <input type="date" id="endDate">
-        </div>
-
-        <button class="filter-btn" onclick="applyFilters()">Apply</button>
+        <button class="filter-btn" onclick="applyFilters()">Apply Filters</button>
     </div>
 
-    <!-- TABLE -->
     <div class="table-container">
-        <table>
+        <table id="visitorTable">
             <thead>
                 <tr>
-                    <th>Date</th>
-                    <th>Name</th>
-                    <th>Type</th>
+                    <th>Date & Time</th>
+                    <th>Full Name</th>
+                    <th>Scanned ID</th>
+                    <th>User Type</th>
                     <th>College</th>
                     <th>Purpose</th>
                     <th>Action</th>
@@ -320,10 +369,10 @@ const adminEmail="jcesperanza@neu.edu.ph";
 const myEmail="erano.tano@neu.edu.ph";
 
 onAuthStateChanged(auth,user=>{
- if(user && (user.email===adminEmail || user.email===myEmail)){
-   loader.style.display="none";
-   adminContent.style.display="block";
-   adminWelcome.innerText="Logged in: "+user.email;
+ if(user && (user.email===adminEmail || user.email.toLowerCase()===myEmail)){
+   document.getElementById('loader').style.display="none";
+   document.getElementById('adminContent').style.display="block";
+   document.getElementById('adminWelcome').innerText="Authorized: " + user.email;
  }else{
    window.location.href="index.html";
  }
@@ -336,44 +385,90 @@ onSnapshot(query(collection(db,"visitors"),orderBy("timestamp","desc")),snap=>{
 });
 
 window.deleteRecord=async(id)=>{
- if(confirm("Delete record?")){
+ Swal.fire({
+  title: 'Are you sure?',
+  text: "You won't be able to revert this!",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#074a21',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Yes, delete it!'
+ }).then(async (result) => {
+  if (result.isConfirmed) {
    await deleteDoc(doc(db,"visitors",id));
- }
+   Swal.fire('Deleted!', 'Record has been removed.', 'success');
+  }
+ });
 };
 
 function render(data){
- tableBody.innerHTML=data.map(v=>`
- <tr>
-  <td>${v.timestamp?.toDate().toLocaleString()||"..."}</td>
-  <td>${v.fullName}</td>
-  <td>${v.userType}</td>
-  <td>${v.college}</td>
-  <td>${v.reason}</td>
-  <td><button class="btn-delete" onclick="deleteRecord('${v.id}')">Delete</button></td>
- </tr>`).join("");
+ const tableBody = document.getElementById("tableBody");
+ tableBody.innerHTML=data.map(v=>{
+  const dateStr = v.timestamp?.toDate().toLocaleString() || "Pending...";
+  const scanBadge = v.scannedID && v.scannedID !== "Manual" 
+                    ? `<span class="badge-scan">${v.scannedID}</span>` 
+                    : `<span style="color:#94a3b8">Manual</span>`;
+  
+  return `
+  <tr>
+   <td>${dateStr}</td>
+   <td style="font-weight:600">${v.fullName}</td>
+   <td>${scanBadge}</td>
+   <td>${v.userType}</td>
+   <td>${v.college}</td>
+   <td>${v.reason}</td>
+   <td><button class="btn-delete" onclick="deleteRecord('${v.id}')">Delete</button></td>
+  </tr>`;
+ }).join("");
 }
 
 function updateStats(data){
- totalCount.innerText=data.length;
- readingCount.innerText=data.filter(v=>v.reason==="Reading").length;
- researchCount.innerText=data.filter(v=>v.reason==="Research").length;
- computerCount.innerText=data.filter(v=>v.reason==="Computer").length;
- employeeCount.innerText=data.filter(v=>v.isEmployee).length;
+ const today = new Date().toDateString();
+ 
+ document.getElementById('totalCount').innerText = data.length;
+ document.getElementById('readingCount').innerText = data.filter(v=>v.reason.includes("Reading")).length;
+ document.getElementById('researchCount').innerText = data.filter(v=>v.reason.includes("Research")).length;
+ document.getElementById('computerCount').innerText = data.filter(v=>v.reason.includes("Computer")).length;
+ document.getElementById('employeeCount').innerText = data.filter(v=>v.userType !== "Student").length;
+ 
+ // Today's count logic
+ const todayLogs = data.filter(v => v.timestamp?.toDate().toDateString() === today);
+ document.getElementById('todayCount').innerText = todayLogs.length;
 }
 
 window.applyFilters=()=>{
- const s=searchInput.value.toLowerCase();
- const r=filterReason.value;
- const c=filterCollege.value;
+ const s = document.getElementById("searchInput").value.toLowerCase();
+ const r = document.getElementById("filterReason").value;
+ const c = document.getElementById("filterCollege").value;
 
- const filtered=allLogs.filter(v=>
- (!s||v.fullName.toLowerCase().includes(s)) &&
- (!r||v.reason===r) &&
- (!c||v.college===c)
+ const filtered = allLogs.filter(v=>
+  (!s || v.fullName.toLowerCase().includes(s) || (v.scannedID && v.scannedID.toLowerCase().includes(s))) &&
+  (!r || v.reason.includes(r)) &&
+  (!c || v.college === c)
  );
 
  render(filtered);
  updateStats(filtered);
+};
+
+// EXPORT TO CSV FUNCTION
+window.exportData = () => {
+    if(allLogs.length === 0) return Swal.fire('No data', 'Nothing to export', 'info');
+    
+    let csv = "Date,Name,ScannedID,UserType,College,Purpose\n";
+    allLogs.forEach(v => {
+        csv += `${v.timestamp?.toDate().toLocaleString()},${v.fullName},${v.scannedID},${v.userType},${v.college},${v.reason}\n`;
+    });
+
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.setAttribute('hidden', '');
+    a.setAttribute('href', url);
+    a.setAttribute('download', `NEU_Library_Logs_${new Date().toLocaleDateString()}.csv`);
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
 };
 
 window.logout=async()=>{
