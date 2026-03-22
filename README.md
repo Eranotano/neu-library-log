@@ -58,7 +58,7 @@ This system allows users to sign in using their institutional email and records 
 ---
 
 ## 🌐 Live Demo
-https://eranotano.github.io/neu-library-log/
+
 
 ---
 
